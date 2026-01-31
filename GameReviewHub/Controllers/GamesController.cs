@@ -17,12 +17,35 @@ namespace GameReviewHub.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            Game[] allGames = dbContext
+            Game[] allGames = dbContext //Add .Take later
                 .Games
                 .AsNoTracking()
+                .OrderBy(g => g.Title)
                 .ToArray();
 
             return View(allGames);
+        }
+
+        [HttpGet] 
+        public IActionResult Details(int id)
+        {
+            // SEO-friendly slugs could be added as a future improvement. Example: Games/Hades/Details
+
+            Game? game = dbContext
+                .Games
+                .Include(g => g.GameGenres)
+                .ThenInclude(gg => gg.Genre)
+                .Include(g => g.Reviews)
+                .AsSplitQuery()
+                .AsNoTracking()
+                .FirstOrDefault(g => g.Id == id);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            return View(game);
         }
     }
 }

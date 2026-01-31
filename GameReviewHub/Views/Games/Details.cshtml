@@ -1,0 +1,33 @@
+﻿@using GameReviewHub.Models
+@model Game
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h2 class="mb-3">@Model.Title</h2>
+
+<div class="mb-3 text-muted">
+    <strong>Developer:</strong> @Model.Developer <br />
+    <strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
+</div>
+
+<p>@Model.Description</p>
+
+@if (Model.GameGenres.Any())
+{
+    <h5 class="mt-4">Genres</h5>
+    <div class="mb-4">
+        @foreach (var gg in Model.GameGenres)
+        {
+            <span class="badge bg-primary me-1">@gg.Genre.Name</span>
+        }
+    </div>
+}
+
+<a asp-controller="Reviews"
+   asp-action="ByGame"
+   asp-route-gameId="@Model.Id"
+   class="btn btn-outline-primary">
+    View Reviews
+</a>
