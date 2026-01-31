@@ -26,9 +26,16 @@ namespace GameReviewHub.Controllers
             return View(allGames);
         }
 
+        // [HttpGet("{id:int:min(1)}")]
         [HttpGet] 
         public IActionResult Details(int id)
         {
+            if (id <= 0)
+            {
+                return NotFound();
+            }
+
+
             // SEO-friendly slugs could be added as a future improvement. Example: Games/Hades/Details
 
             Game? game = dbContext

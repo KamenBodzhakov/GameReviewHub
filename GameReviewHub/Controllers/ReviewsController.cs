@@ -14,15 +14,15 @@ namespace GameReviewHub.Controllers
             this.dbContext = dbContext;
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        [HttpGet]
+        [HttpGet("Reviews/ByGame/{gameId:int}")] // Route: /Reviews/ByGame/1 instead of /Reviews/ByGame?gameId=1 , for better RESTful design
         public IActionResult ByGame(int gameId)
         {
+            if (gameId <= 0)
+            {
+                return NotFound();
+            }
+
             Game? game = dbContext
                 .Games
                 .Include(g => g.Reviews)
