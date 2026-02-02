@@ -16,7 +16,7 @@ namespace GameReviewHub
                 // Here we can configure the DbContext the same way as in "OnConfiguring()''
 
                 options
-                        .UseSqlServer(connectionString);
+                    .UseSqlServer(connectionString);
             });
 
             // Add services to the container.

@@ -1,6 +1,6 @@
 ﻿namespace GameReviewHub.Common
 {
-    public static class EntityValidation
+    public static class ValidationConstants
     {
         public static class Game
         {
@@ -12,10 +12,12 @@
 
         public static class Review
         {
-            public const int TitleMinLength = 3;
+            public const int TitleMinLength = 2;
             public const int TitleMaxLength = 80;
-            public const int BodyMinLength = 20;
+            public const int BodyMinLength = 5;
             public const int BodyMaxLength = 2000;
+            public const int ScoreMinValue = 1;
+            public const int ScoreMaxValue = 10;
         }
 
         public static class Genre

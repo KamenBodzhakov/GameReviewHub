@@ -27,7 +27,6 @@ namespace GameReviewHub.Data
             modelBuilder.Entity<GameGenre>().HasKey(gg => new { gg.GameId, gg.GenreId });
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(GameReviewHubDbContext).Assembly);
-
         }
     }
 }

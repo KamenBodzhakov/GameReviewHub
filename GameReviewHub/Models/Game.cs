@@ -2,7 +2,7 @@
 
 namespace GameReviewHub.Models
 {
-    using static Common.EntityValidation.Game;
+    using static Common.ValidationConstants.Game;
     public class Game
     {
         [Key]

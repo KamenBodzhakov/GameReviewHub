@@ -2,7 +2,7 @@
 
 namespace GameReviewHub.Models
 {
-    using static Common.EntityValidation.Genre;
+    using static Common.ValidationConstants.Genre;
     public class Genre
     {
         [Key]

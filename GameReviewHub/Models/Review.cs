@@ -2,7 +2,7 @@
 
 namespace GameReviewHub.Models
 {
-    using static Common.EntityValidation.Review;
+    using static Common.ValidationConstants.Review;
     public class Review
     {
         [Key]
@@ -15,7 +15,7 @@ namespace GameReviewHub.Models
 
         [Required]
         [MinLength(BodyMinLength)]
-        [MaxLength(BodyMaxLength)]
+        [MaxLength(BodyMaxLength)] 
         public string Body { get; set; } = null!;
 
         [Range(1, 10)]
