@@ -12,6 +12,5 @@
         public double AverageRating { get; set; }
         public DateTime ReleaseDate { get; set; }
 
-
     }
 }

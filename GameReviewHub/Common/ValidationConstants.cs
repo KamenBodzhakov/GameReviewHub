@@ -8,6 +8,7 @@
             public const int DeveloperMaxLength = 80;
             public const int DescriptionMinLength = 20;
             public const int DescriptionMaxLength = 1000;
+            public const int GameCardMaxDescriptionLength = 200;
         }
 
         public static class Review
@@ -25,5 +26,6 @@
             public const int NameMinLength = 3;
             public const int NameMaxLength = 30;
         }
+        
     }
 }

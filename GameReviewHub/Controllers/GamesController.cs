@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewHub.Controllers
 {
+    using static Common.ValidationConstants.Game;
     public class GamesController : Controller
     {
+
         private readonly GameReviewHubDbContext dbContext;
 
         public GamesController(GameReviewHubDbContext dbContext)
@@ -29,13 +31,13 @@ namespace GameReviewHub.Controllers
                     Developer = g.Developer,
                     ReleaseDate = g.ReleaseDate,
                     ShortDescription = g.Description.Length > 200
-                        ? g.Description.Substring(0, 200) + "..."
+                        ? g.Description.Substring(0, GameCardMaxDescriptionLength) + "..."
                         : g.Description,
                     AverageRating = g.Reviews.Any()
                         ? g.Reviews.Average(r => r.Rating)
                         : 0.0
                 })
-                .ToArray();
+                .ToList();
 
             return View(allGames);
         }
