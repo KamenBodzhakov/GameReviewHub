@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GameReviewHub.Models
+namespace GameReviewHub.Models.EntityModels
 {
     using static Common.ValidationConstants.Game;
     public class Game

@@ -1,5 +1,5 @@
 ﻿using GameReviewHub.Data;
-using GameReviewHub.Models;
+using GameReviewHub.Models.EntityModels;
 using GameReviewHub.Models.InputModels;
 using GameReviewHub.Models.ViewModels.Review;
 using Microsoft.AspNetCore.Mvc;
@@ -73,7 +73,7 @@ namespace GameReviewHub.Controllers
                 GameId = game.Id,
                 Title = input.Title,
                 Body = input.Body,
-                Score = input.Score,
+                Rating = input.Score,
                 CreatedOn = DateTime.UtcNow
             };
 

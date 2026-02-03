@@ -1,4 +1,5 @@
 ﻿@using GameReviewHub.Models
+@using GameReviewHub.Models.EntityModels
 @model Game
 
 @{
@@ -23,7 +24,7 @@ else
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h5 class="mb-0">@review.Title</h5>
                     <span class="badge bg-success fs-6">
-                        @review.Score / 10
+                        @review.Rating / 10
                     </span>
                 </div>
 

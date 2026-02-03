@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GameReviewHub.Models
+namespace GameReviewHub.Models.EntityModels
 {
     public class GameGenre
     {

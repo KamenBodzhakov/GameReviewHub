@@ -1,5 +1,6 @@
 ﻿using GameReviewHub.Data;
-using GameReviewHub.Models;
+using GameReviewHub.Models.EntityModels;
+using GameReviewHub.Models.ViewModels.Game;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,17 +18,30 @@ namespace GameReviewHub.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            Game[] allGames = dbContext //Add .Take later
+            IEnumerable<GameListItemViewModel> allGames = dbContext //Add .Take later
                 .Games
                 .AsNoTracking()
                 .OrderBy(g => g.Title)
+                .Select(g => new GameListItemViewModel
+                {
+                    Id = g.Id,
+                    Title = g.Title,
+                    Developer = g.Developer,
+                    ReleaseDate = g.ReleaseDate,
+                    ShortDescription = g.Description.Length > 200
+                        ? g.Description.Substring(0, 200) + "..."
+                        : g.Description,
+                    AverageRating = g.Reviews.Any()
+                        ? g.Reviews.Average(r => r.Rating)
+                        : 0.0
+                })
                 .ToArray();
 
             return View(allGames);
         }
 
         // [HttpGet("{id:int:min(1)}")]
-        [HttpGet] 
+        [HttpGet]
         public IActionResult Details(int id)
         {
             if (id <= 0)

@@ -1,4 +1,4 @@
-﻿using GameReviewHub.Models;
+﻿using GameReviewHub.Models.EntityModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -26,7 +26,7 @@ namespace GameReviewHub.Data.Configuration
                     "- Occasional pacing dips in long sessions\n\n" +
                     "Overall:\n" +
                     "- An exceptional RPG that rewards exploration and experimentation.",
-                Score = 10,
+                Rating = 10,
                 CreatedOn = new DateTime(2023, 8, 10)
             },
             new Review
@@ -44,7 +44,7 @@ namespace GameReviewHub.Data.Configuration
                     "- Some builds depend heavily on luck\n\n" +
                     "Overall:\n" +
                     "- One of the best roguelikes, with story that actually motivates retries.",
-                Score = 9,
+                Rating = 9,
                 CreatedOn = new DateTime(2020, 10, 1)
             },
             new Review
@@ -62,7 +62,7 @@ namespace GameReviewHub.Data.Configuration
                     "- Some systems feel under-explained\n\n" +
                     "Overall:\n" +
                     "- An ambitious action RPG that could be great with refinement and updates.",
-                Score = 8,
+                Rating = 8,
                 CreatedOn = new DateTime(2025, 12, 1)
             },
             new Review
@@ -80,7 +80,7 @@ namespace GameReviewHub.Data.Configuration
                     "- Combat is simpler than the platforming\n\n" +
                     "Overall:\n" +
                     "- A gorgeous adventure that’s worth experiencing for its world and feel.",
-                Score = 9,
+                Rating = 9,
                 CreatedOn = new DateTime(2015, 3, 20)
             },
             new Review
@@ -98,7 +98,7 @@ namespace GameReviewHub.Data.Configuration
                     "- Runs can swing based on RNG\n\n" +
                     "Overall:\n" +
                     "- A top-tier deckbuilder that stays fresh for hundreds of runs.",
-                Score = 9,
+                Rating = 9,
                 CreatedOn = new DateTime(2019, 2, 5)
             }
         };

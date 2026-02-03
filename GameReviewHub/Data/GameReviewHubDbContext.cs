@@ -1,6 +1,5 @@
-﻿using GameReviewHub.Models;
+﻿using GameReviewHub.Models.EntityModels;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace GameReviewHub.Data
 {

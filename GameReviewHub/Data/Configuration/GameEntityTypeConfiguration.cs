@@ -1,4 +1,4 @@
-﻿using GameReviewHub.Models;
+﻿using GameReviewHub.Models.EntityModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

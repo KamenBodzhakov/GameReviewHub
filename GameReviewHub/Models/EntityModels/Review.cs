@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GameReviewHub.Models
+namespace GameReviewHub.Models.EntityModels
 {
     using static Common.ValidationConstants.Review;
     public class Review
@@ -19,7 +19,7 @@ namespace GameReviewHub.Models
         public string Body { get; set; } = null!;
 
         [Range(1, 10)]
-        public int Score { get; set; }
+        public int Rating { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
