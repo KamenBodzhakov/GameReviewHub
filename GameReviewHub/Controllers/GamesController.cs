@@ -51,7 +51,6 @@ namespace GameReviewHub.Controllers
                 return NotFound();
             }
 
-
             // SEO-friendly slugs could be added as a future improvement. Example: Games/Hades/Details
 
             Game? game = dbContext

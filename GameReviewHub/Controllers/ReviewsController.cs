@@ -40,6 +40,34 @@ namespace GameReviewHub.Controllers
             return View(game);
         }
 
+        [HttpGet]
+        public IActionResult CreateReview(int gameId)
+        {
+            Game? game = dbContext.Games
+                .Where(g => g.Id == gameId)
+                .Select(g => new Game
+                {
+                    Id = g.Id,
+                    Title = g.Title
+                })
+                .FirstOrDefault();
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            CreateReviewViewModel viewModel = new CreateReviewViewModel()
+            {
+                GameId = game.Id,
+                GameTitle = game.Title
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
         public IActionResult CreateReview(int gameId, CreateReviewInputModel input)
         {
             Game? game = dbContext.Games
@@ -73,14 +101,15 @@ namespace GameReviewHub.Controllers
                 GameId = game.Id,
                 Title = input.Title,
                 Body = input.Body,
-                Rating = input.Score,
+                Rating = input.Rating,
                 CreatedOn = DateTime.UtcNow
             };
 
             dbContext.Reviews.Add(review);
             dbContext.SaveChanges();
 
-            return RedirectToAction(nameof(ByGame), new { gameId = game.Id } );
+            return RedirectToAction(nameof(ByGame), new { gameId = game.Id });
         }
+
     }
 }

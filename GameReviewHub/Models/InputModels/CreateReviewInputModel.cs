@@ -16,7 +16,7 @@
 
         [Required]
         [Range(ScoreMinValue, ScoreMaxValue)]
-        public int Score { get; set; }
+        public int Rating { get; set; }
 
     }
 }
