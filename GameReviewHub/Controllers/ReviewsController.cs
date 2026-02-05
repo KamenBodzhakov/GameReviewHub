@@ -40,6 +40,7 @@ namespace GameReviewHub.Controllers
             return View(game);
         }
 
+
         [HttpGet]
         public IActionResult CreateReview(int gameId)
         {
@@ -109,6 +110,29 @@ namespace GameReviewHub.Controllers
             dbContext.SaveChanges();
 
             return RedirectToAction(nameof(ByGame), new { gameId = game.Id });
+        }
+
+
+        [HttpGet]
+        public IActionResult DeleteReview(int gameId, int reviewId)
+        {
+            DeleteReviewViewModel? reviewViewModel = dbContext.Reviews
+                .AsNoTracking()
+                .Where(r => r.Id == reviewId && r.GameId == gameId)
+                .Select(r => new DeleteReviewViewModel
+                {
+                    ReviewId = r.Id,
+                    GameTitle = r.Title,
+                    GameId = r.Id
+                })
+                .FirstOrDefault();
+
+            if (reviewViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(reviewViewModel);
         }
 
     }
