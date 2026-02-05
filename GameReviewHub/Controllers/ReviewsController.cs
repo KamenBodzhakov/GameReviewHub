@@ -116,7 +116,7 @@ namespace GameReviewHub.Controllers
         [HttpGet]
         public IActionResult DeleteReview(int gameId, int reviewId)
         {
-            DeleteReviewViewModel? reviewViewModel = dbContext.Reviews
+            DeleteReviewViewModel? viewModel = dbContext.Reviews
                 .AsNoTracking()
                 .Where(r => r.Id == reviewId && r.GameId == gameId)
                 .Select(r => new DeleteReviewViewModel
@@ -127,13 +127,23 @@ namespace GameReviewHub.Controllers
                 })
                 .FirstOrDefault();
 
-            if (reviewViewModel == null)
-            {
-                return NotFound();
-            }
+            if (viewModel == null) return NotFound();
 
-            return View(reviewViewModel);
+            return View(viewModel);
         }
 
+        [HttpPost]
+        public IActionResult DeleteReview(DeleteReviewViewModel viewModel)
+        {
+            Review? review = dbContext.Reviews
+                .FirstOrDefault(r => r.Id == viewModel.ReviewId && r.GameId == viewModel.GameId);
+
+            if (review == null) return NotFound();
+
+            dbContext.Reviews.Remove(review);
+            dbContext.SaveChanges();
+
+            return RedirectToAction(nameof(ByGame), new { gameId = viewModel.GameId } );
+        }
     }
 }
