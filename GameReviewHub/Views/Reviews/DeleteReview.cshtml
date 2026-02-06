@@ -1,0 +1,39 @@
+﻿@model GameReviewHub.Models.ViewModels.Review.DeleteReviewViewModel
+
+@{
+    ViewData["Title"] = "Delete Review";
+}
+
+<h2 class="mb-3">Delete Review</h2>
+
+<div class="alert alert-warning">
+    <strong>Are you sure?</strong> This will permanently delete the review below.
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.ReviewTitle</h5>
+        <h6 class="card-subtitle text-muted mb-2">@Model.GameTitle</h6>
+
+        <div class="mb-2">
+            <span class="badge bg-success">⭐ @Model.Rating / 10</span>
+            <span class="text-muted ms-2">Posted: @Model.CreatedOn.ToString("yyyy-MM-dd")</span>
+        </div>
+    </div>
+</div>
+
+<form asp-action="DeleteReview" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="GameId" />
+    <input type="hidden" asp-for="ReviewId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+
+    <a class="btn btn-secondary"
+       asp-controller="Reviews"
+       asp-action="ByGame"
+       asp-route-gameId="@Model.GameId">
+       Cancel
+    </a>
+</form>

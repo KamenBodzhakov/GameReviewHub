@@ -16,16 +16,34 @@
 }
 else
 {
-    @foreach (var review in Model.Reviews
-                .OrderByDescending(r => r.CreatedOn))
+    @foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedOn))
     {
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h5 class="mb-0">@review.Title</h5>
-                    <span class="badge bg-success fs-6">
-                        @review.Rating / 10
-                    </span>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-success fs-6">
+                            @review.Rating / 10
+                        </span>
+
+                        <a class="btn btn-sm btn-outline-primary"
+                           asp-controller="Reviews"
+                           asp-action="EditReview"
+                           asp-route-gameId="@Model.Id"
+                           asp-route-reviewId="@review.Id">
+                            Edit
+                        </a>
+
+                        <a class="btn btn-sm btn-outline-danger"
+                           asp-controller="Reviews"
+                           asp-action="DeleteReview"
+                           asp-route-gameId="@Model.Id"
+                           asp-route-reviewId="@review.Id">
+                            Delete
+                        </a>
+                    </div>
                 </div>
 
                 <small class="text-muted">
@@ -53,6 +71,7 @@ else
        asp-route-gameId="@Model.Id">
         + Add Review
     </a>
+
 </div>
 
 
