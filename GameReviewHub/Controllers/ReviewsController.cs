@@ -1,7 +1,8 @@
 ﻿using GameReviewHub.Data;
-using GameReviewHub.Models.EntityModels;
-using GameReviewHub.Models.InputModels;
-using GameReviewHub.Models.ViewModels.Review;
+using GameReviewHub.Data.Models;
+using GameReviewHub.Services.Core.Interfaces;
+using GameReviewHub.ViewModels;
+using GameReviewHub.ViewModels.Review;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,32 +11,20 @@ namespace GameReviewHub.Controllers
     public class ReviewsController : Controller
     {
         private readonly GameReviewHubDbContext dbContext;
-
-        public ReviewsController(GameReviewHubDbContext dbContext)
+        private readonly IReviewService reviewService;
+        public ReviewsController(GameReviewHubDbContext dbContext, IReviewService reviewService)
         {
             this.dbContext = dbContext;
+            this.reviewService = reviewService;
         }
 
 
         [HttpGet("Reviews/ByGame/{gameId:int}")] // Route: /Reviews/ByGame/1 instead of /Reviews/ByGame?gameId=1 , for better RESTful design
         public IActionResult ByGame(int gameId)
         {
-            if (gameId <= 0)
-            {
-                return BadRequest();
-            }
-
-            Game? game = dbContext
-                .Games
-                .Include(g => g.Reviews)
-                .AsSplitQuery()
-                .AsNoTracking()
-                .FirstOrDefault(g => g.Id == gameId);
-
-            if (game == null)
-            {
-                return NotFound();
-            }
+            if (gameId <= 0) return BadRequest();
+            Game? game = reviewService.GetGameWithReviews(gameId);
+            if (game == null) return NotFound();
 
             return View(game);
         }
@@ -44,25 +33,11 @@ namespace GameReviewHub.Controllers
         [HttpGet]
         public IActionResult CreateReview(int gameId)
         {
-            Game? game = dbContext.Games
-                .Where(g => g.Id == gameId)
-                .Select(g => new Game
-                {
-                    Id = g.Id,
-                    Title = g.Title
-                })
-                .FirstOrDefault();
+            if (gameId <= 0) return BadRequest();
 
-            if (game == null)
-            {
-                return NotFound();
-            }
+            CreateReviewViewModel? viewModel = reviewService.BuildCreateReviewViewModel(gameId);
 
-            CreateReviewViewModel viewModel = new CreateReviewViewModel()
-            {
-                GameId = game.Id,
-                GameTitle = game.Title
-            };
+            if (viewModel == null) return NotFound();
 
             return View(viewModel);
         }

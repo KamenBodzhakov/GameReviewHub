@@ -1,7 +1,6 @@
 using System.Diagnostics;
-using GameReviewHub.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-
+using GameReviewHub.ViewModels;
 namespace GameReviewHub.Controllers
 {
     public class HomeController : Controller

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameReviewHub.Data.Models\GameReviewHub.Data.Models.csproj" />
+    <ProjectReference Include="..\GameReviewHub.Data\GameReviewHub.Data.csproj" />
+    <ProjectReference Include="..\GameReviewHub.ViewModels\GameReviewHub.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

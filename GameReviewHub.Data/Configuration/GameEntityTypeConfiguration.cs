@@ -1,0 +1,58 @@
+﻿using GameReviewHub.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace GameReviewHub.Data.Configuration
+{
+    public class GameEntityTypeConfiguration : IEntityTypeConfiguration<Game>
+    {
+        private readonly Game[] Games =
+        {
+            new Game
+            {
+                Id = 1,
+                Title = "Baldur's Gate 3",
+                Developer = "Larian Studios",
+                Description = "A sprawling role-playing adventure in the Dungeons & Dragons universe, featuring deep narrative, tactical combat, and rich character progression.",
+                ReleaseDate = new DateTime(2023, 8, 3)
+            },
+            new Game
+            {
+                Id = 2,
+                Title = "Hades",
+                Developer = "Supergiant Games",
+                Description = "A fast-paced roguelike action game where players fight to escape the Underworld, combining tight combat with evolving storytelling.",
+                ReleaseDate = new DateTime(2020, 9, 17)
+            },
+            new Game
+            {
+                Id = 3,
+                Title = "Where Winds Meet",
+                Developer = "Everstone Studio",
+                Description = "A wuxia-inspired open-world action-adventure RPG set in a fantastical version of historical China, blending martial arts combat with exploration.",
+                ReleaseDate = new DateTime(2025, 11, 14)
+            },
+            new Game
+            {
+                Id = 4,
+                Title = "Ori and the Blind Forest",
+                Developer = "Moon Studios",
+                Description = "A visually stunning platform adventure about a young guardian spirit on a touching journey to save a dying forest filled with heart and challenge.",
+                ReleaseDate = new DateTime(2015, 3, 11)
+            },
+            new Game
+            {
+                Id = 5,
+                Title = "Slay the Spire",
+                Developer = "Mega Crit",
+                Description = "A beloved roguelike deckbuilder that blends strategic card combat with procedural levels, challenging players to ascend the mysterious Spire.",
+                ReleaseDate = new DateTime(2019, 1, 23)
+            }
+                };
+
+        public void Configure(EntityTypeBuilder<Game> entity)
+        {
+            entity.HasData(this.Games);
+        }
+    }
+}

@@ -1,4 +1,7 @@
 using GameReviewHub.Data;
+using GameReviewHub.Services.Core;
+using GameReviewHub.Services.Core.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewHub
@@ -7,25 +10,29 @@ namespace GameReviewHub
     {
         public static void Main(string[] args)
         {
-            // Registration of user services in DI container
-            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-            string? connectionString = builder.Configuration.GetConnectionString("DevConnection");
-
-            builder.Services.AddDbContext<GameReviewHubDbContext>(options =>
-            {
-                // Here we can configure the DbContext the same way as in "OnConfiguring()''
-
-                options
-                    .UseSqlServer(connectionString);
-            });
+            var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            var connectionString = builder.Configuration.GetConnectionString("DevConnection") ?? throw new InvalidOperationException("Connection string 'DevConnection' not found.");
+            builder.Services.AddDbContext<GameReviewHubDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<GameReviewHubDbContext>();
+
             builder.Services.AddControllersWithViews();
 
-            WebApplication app = builder.Build();
+            builder.Services.AddScoped<IReviewService, ReviewService>();
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseMigrationsEndPoint();
+            }
+            else
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -36,11 +43,13 @@ namespace GameReviewHub
             app.UseStaticFiles();
 
             app.UseRouting();
+
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapRazorPages();
 
             app.Run();
         }

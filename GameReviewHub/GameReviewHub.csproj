@@ -1,19 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-GameReviewHub-7f1017a0-3528-4271-a207-951ebc41216f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="bootstrap" Version="5.3.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.23" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.23" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.23" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.23">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameReviewHub.Common\GameReviewHub.Common.csproj" />
+    <ProjectReference Include="..\GameReviewHub.Data.Models\GameReviewHub.Data.Models.csproj" />
+    <ProjectReference Include="..\GameReviewHub.Data\GameReviewHub.Data.csproj" />
+    <ProjectReference Include="..\GameReviewHub.Services.Core\GameReviewHub.Services.Core.csproj" />
+    <ProjectReference Include="..\GameReviewHub.ViewModels\GameReviewHub.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

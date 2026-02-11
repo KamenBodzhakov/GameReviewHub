@@ -1,6 +1,6 @@
 ﻿using GameReviewHub.Data;
-using GameReviewHub.Models.EntityModels;
-using GameReviewHub.Models.ViewModels.Game;
+using GameReviewHub.Data.Models;
+using GameReviewHub.ViewModels.Game;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
