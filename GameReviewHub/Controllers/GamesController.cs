@@ -1,73 +1,38 @@
-﻿using GameReviewHub.Data;
-using GameReviewHub.Data.Models;
+﻿
+using GameReviewHub.Services.Core;
+using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewHub.Controllers
 {
-    using static Common.ValidationConstants.Game;
     public class GamesController : Controller
     {
 
-        private readonly GameReviewHubDbContext dbContext;
+        private readonly IGameService gameService;
 
-        public GamesController(GameReviewHubDbContext dbContext)
+        public GamesController(IGameService gameService)
         {
-            this.dbContext = dbContext;
+            this.gameService = gameService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            IEnumerable<GameListItemViewModel> allGames = dbContext //Add .Take later
-                .Games
-                .AsNoTracking()
-                .OrderBy(g => g.Title)
-                .Select(g => new GameListItemViewModel
-                {
-                    Id = g.Id,
-                    Title = g.Title,
-                    Developer = g.Developer,
-                    ReleaseDate = g.ReleaseDate,
-                    ShortDescription = g.Description.Length > 200
-                        ? g.Description.Substring(0, GameCardMaxDescriptionLength) + "..."
-                        : g.Description,
-                    AverageRating = g.Reviews.Any()
-                        ? g.Reviews.Average(r => r.Rating)
-                        : 0.0
-                })
-                .ToList();
+            IEnumerable<GameListItemViewModel> allGames = gameService.ShowAllGames();
 
             return View(allGames);
         }
 
-        // [HttpGet("{id:int:min(1)}")]
         [HttpGet]
         public IActionResult Details(int id)
         {
-            if (id <= 0)
-            {
-                return NotFound();
-            }
+            if (id <= 0) return NotFound();  // Slugs could be added as a future improvement. Example: Games/Hades/Details
 
-            // SEO-friendly slugs could be added as a future improvement. Example: Games/Hades/Details
+            GameDetailsViewModel? viewModel = gameService.GetGameDetails(id);
+            if (viewModel == null) return NotFound();
 
-            Game? game = dbContext
-                .Games
-                .Include(g => g.GameGenres)
-                .ThenInclude(gg => gg.Genre)
-                .Include(g => g.Reviews)
-                .AsSplitQuery()
-                .AsNoTracking()
-                .FirstOrDefault(g => g.Id == id);
-
-            if (game == null)
-            {
-                return NotFound();
-            }
-
-            return View(game);
+            return View(viewModel);
         }
     }
 }

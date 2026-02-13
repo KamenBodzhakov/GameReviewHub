@@ -1,5 +1,5 @@
-﻿@using GameReviewHub.Data.Models
-@model Game
+﻿@using GameReviewHub.ViewModels.Game
+@model GameDetailsViewModel
 
 @{
     ViewData["Title"] = Model.Title;
@@ -14,13 +14,13 @@
 
 <p>@Model.Description</p>
 
-@if (Model.GameGenres.Any())
+@if (Model.Genres.Any())
 {
     <h5 class="mt-4">Genres</h5>
     <div class="mb-4">
-        @foreach (var gg in Model.GameGenres)
+        @foreach (var genre in Model.Genres)
         {
-            <span class="badge bg-primary me-1">@gg.Genre.Name</span>
+            <span class="badge bg-primary me-1">@genre</span>
         }
     </div>
 }

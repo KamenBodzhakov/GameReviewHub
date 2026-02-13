@@ -24,6 +24,7 @@ namespace GameReviewHub
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IReviewService, ReviewService>();
+            builder.Services.AddScoped<IGameService, GameService>();
 
             var app = builder.Build();
 

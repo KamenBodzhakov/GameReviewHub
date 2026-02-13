@@ -1,17 +1,15 @@
-﻿using GameReviewHub.Data;
-using GameReviewHub.Data.Models;
+﻿using GameReviewHub.Data.Models;
 using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels;
 using GameReviewHub.ViewModels.Review;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewHub.Controllers
 {
     public class ReviewsController : Controller
     {
         private readonly IReviewService reviewService;
-        public ReviewsController(GameReviewHubDbContext dbContext, IReviewService reviewService)
+        public ReviewsController(IReviewService reviewService)
         {
             this.reviewService = reviewService;
         }
