@@ -24,7 +24,6 @@
 </div>
 
 <form asp-action="DeleteReview" method="post">
-    @Html.AntiForgeryToken()
 
     <input type="hidden" asp-for="GameId" />
     <input type="hidden" asp-for="ReviewId" />
