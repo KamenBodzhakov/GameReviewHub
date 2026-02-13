@@ -17,9 +17,9 @@ namespace GameReviewHub.Services.Core
             this.dbContext = dbContext;
         }
 
-        public IEnumerable<GameListItemViewModel> ShowAllGames()
+        public async Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync()
         {
-            return dbContext.Games
+            return await dbContext.Games
             .AsNoTracking()
             .OrderBy(g => g.Title)
             .ThenBy(g => g.ReleaseDate)
@@ -36,12 +36,12 @@ namespace GameReviewHub.Services.Core
                     ? g.Reviews.Average(r => r.Rating)
                     : 0.0
             })
-            .ToList();
+            .ToListAsync();
         }
 
-        public GameDetailsViewModel? GetGameDetails(int gameId)
+        public async Task<GameDetailsViewModel?> GetGameDetailsAsync(int gameId)
         {
-            return dbContext
+            return await dbContext
                 .Games
                 .AsNoTracking()
                 .Where(g => g.Id == gameId)
@@ -57,7 +57,7 @@ namespace GameReviewHub.Services.Core
                         .OrderBy(name => name)
                         .ToList()
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
     }
 }

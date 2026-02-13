@@ -4,7 +4,7 @@ namespace GameReviewHub.Services.Core.Interfaces
 {
     public interface IGameService
     {
-        IEnumerable<GameListItemViewModel> ShowAllGames();
-        GameDetailsViewModel? GetGameDetails(int gameId);
+        Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync();
+        Task<GameDetailsViewModel?> GetGameDetailsAsync(int gameId);
     }
 }

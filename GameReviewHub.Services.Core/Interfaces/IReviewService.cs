@@ -7,16 +7,16 @@ namespace GameReviewHub.Services.Core.Interfaces
 {
     public interface IReviewService
     {
-        Game? GetGameWithReviews(int gameId);
+        Task<Game?> GetGameWithReviewsAsync(int gameId);
 
-        CreateReviewViewModel? BuildCreateReviewViewModel(int gameId);
+        Task<CreateReviewViewModel?> BuildCreateReviewViewModelAsync(int gameId);
 
-        public bool CreateReview(int gameId, CreateReviewInputModel input); // public?
+        Task<bool> CreateReviewAsync(int gameId, CreateReviewInputModel input);
 
-        DeleteReviewViewModel? BuildDeleteReviewViewModel(int gameId, int reviewId);
-        bool DeleteReview(int gameId, int reviewId);
+        Task<DeleteReviewViewModel?> BuildDeleteReviewViewModelAsync(int gameId, int reviewId);
+        Task<bool> DeleteReviewAsync(int gameId, int reviewId);
 
-        EditReviewViewModel? BuildEditReviewViewModel(int gameId, int reviewId);
-        bool ConfirmEditReview(int gameId, int reviewId, CreateReviewInputModel input);
+        Task<EditReviewViewModel?> BuildEditReviewViewModelAsync(int gameId, int reviewId);
+        Task<bool> ConfirmEditReviewAsync(int gameId, int reviewId, CreateReviewInputModel input);
     }
 }

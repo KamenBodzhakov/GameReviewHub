@@ -16,33 +16,33 @@ namespace GameReviewHub.Services.Core
             this.dbContext = dbContext;
         }
 
-        public Game? GetGameWithReviews(int gameId)
+        public async Task<Game?> GetGameWithReviewsAsync(int gameId)
         {
-            return dbContext.Games
+            return await dbContext.Games
                 .Include(g => g.Reviews)
                 .AsSplitQuery()
                 .AsNoTracking()
-                .FirstOrDefault(g => g.Id == gameId);
+                .FirstOrDefaultAsync(g => g.Id == gameId);
         }
 
-        public CreateReviewViewModel? BuildCreateReviewViewModel(int gameId)
+        public async Task<CreateReviewViewModel?> BuildCreateReviewViewModelAsync(int gameId)
         {
-            CreateReviewViewModel? viewModel = dbContext.Games
+            CreateReviewViewModel? viewModel = await dbContext.Games
                 .Where(g => g.Id == gameId)
                 .Select(g => new CreateReviewViewModel
                 {
                     GameId = g.Id,
                     GameTitle = g.Title
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return viewModel;
         }
 
 
-        public bool CreateReview(int gameId, CreateReviewInputModel input)
+        public async Task<bool> CreateReviewAsync(int gameId, CreateReviewInputModel input)
         {
-            bool gameExists = dbContext.Games.Any(g => g.Id == gameId);
+            bool gameExists = await dbContext.Games.AnyAsync(g => g.Id == gameId);
 
             if (!gameExists) return false;
 
@@ -56,14 +56,14 @@ namespace GameReviewHub.Services.Core
             };
 
             dbContext.Reviews.Add(review);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return true;
         }
 
-        public DeleteReviewViewModel? BuildDeleteReviewViewModel(int gameId, int reviewId)
+        public async Task<DeleteReviewViewModel?> BuildDeleteReviewViewModelAsync(int gameId, int reviewId)
         {
-            DeleteReviewViewModel? viewModel = dbContext.Reviews
+            DeleteReviewViewModel? viewModel = await dbContext.Reviews
                 .AsNoTracking()
                 .Where(r => r.Id == reviewId && r.GameId == gameId)
                 .Select(r => new DeleteReviewViewModel
@@ -75,27 +75,27 @@ namespace GameReviewHub.Services.Core
                     Rating = r.Rating,
                     CreatedOn = r.CreatedOn
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return viewModel;
         }
 
-        public bool DeleteReview(int gameId, int reviewId)
+        public async Task<bool> DeleteReviewAsync(int gameId, int reviewId)
         {
-            Review? review = dbContext.Reviews
-                .FirstOrDefault(r => r.Id == reviewId && r.GameId == gameId);
+            Review? review = await dbContext.Reviews
+                .FirstOrDefaultAsync(r => r.Id == reviewId && r.GameId == gameId);
 
             if (review == null) return false;
 
             dbContext.Reviews.Remove(review);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return true;
         }
 
-        public EditReviewViewModel? BuildEditReviewViewModel(int gameId, int reviewId)
+        public async Task<EditReviewViewModel?> BuildEditReviewViewModelAsync(int gameId, int reviewId)
         {
-            EditReviewViewModel? viewModel = dbContext.Reviews
+            EditReviewViewModel? viewModel = await dbContext.Reviews
                 .AsNoTracking()
                 .Where(r => r.Id == reviewId && r.GameId == gameId)
                 .Select(r => new EditReviewViewModel
@@ -110,15 +110,15 @@ namespace GameReviewHub.Services.Core
                         Rating = r.Rating
                     }
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return viewModel;
         }
 
-        public bool ConfirmEditReview(int gameId, int reviewId, CreateReviewInputModel input)
+        public async Task<bool> ConfirmEditReviewAsync(int gameId, int reviewId, CreateReviewInputModel input)
         {
-            Review? review = dbContext.Reviews
-                .FirstOrDefault(r => r.Id == reviewId && r.GameId == gameId);
+            Review? review = await dbContext.Reviews
+                .FirstOrDefaultAsync(r => r.Id == reviewId && r.GameId == gameId);
 
             if (review == null) return false;
 
@@ -126,7 +126,7 @@ namespace GameReviewHub.Services.Core
             review.Body = input.Body;
             review.Rating = input.Rating;
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             return true;
         }

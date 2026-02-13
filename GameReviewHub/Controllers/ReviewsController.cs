@@ -16,11 +16,11 @@ namespace GameReviewHub.Controllers
 
 
         [HttpGet("Reviews/ByGame/{gameId:int}")] // Route: /Reviews/ByGame/1 instead of /Reviews/ByGame?gameId=1 , for better RESTful design
-        public IActionResult ByGame(int gameId)
+        public async Task<IActionResult> ByGame(int gameId)
         {
             if (GameIdIsInvalid(gameId)) return BadRequest();
 
-            Game? game = reviewService.GetGameWithReviews(gameId);
+            Game? game = await reviewService.GetGameWithReviewsAsync(gameId);
             if (game == null) return NotFound();
 
             return View(game);
@@ -28,11 +28,11 @@ namespace GameReviewHub.Controllers
 
 
         [HttpGet]
-        public IActionResult CreateReview(int gameId)
+        public async Task<IActionResult> CreateReview(int gameId)
         {
             if (GameIdIsInvalid(gameId)) return BadRequest();
 
-            CreateReviewViewModel? viewModel = reviewService.BuildCreateReviewViewModel(gameId);
+            CreateReviewViewModel? viewModel = await reviewService.BuildCreateReviewViewModelAsync(gameId);
             if (viewModel == null) return NotFound();
 
             return View(viewModel);
@@ -40,11 +40,11 @@ namespace GameReviewHub.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateReview(int gameId, CreateReviewInputModel input)
+        public async Task<IActionResult> CreateReview(int gameId, CreateReviewInputModel input)
         {
             if (GameIdIsInvalid(gameId)) return BadRequest();
 
-            CreateReviewViewModel? viewModel = reviewService.BuildCreateReviewViewModel(gameId);
+            CreateReviewViewModel? viewModel = await reviewService.BuildCreateReviewViewModelAsync(gameId);
             if (viewModel == null) return NotFound();
 
             if (!ModelState.IsValid)
@@ -53,7 +53,7 @@ namespace GameReviewHub.Controllers
                 return View(viewModel);
             }
 
-            bool isCreated = reviewService.CreateReview(gameId, input);
+            bool isCreated = await reviewService.CreateReviewAsync(gameId, input);
             if (!isCreated) return NotFound();
 
             return RedirectToAction(nameof(ByGame), new { gameId });
@@ -61,11 +61,11 @@ namespace GameReviewHub.Controllers
 
 
         [HttpGet]
-        public IActionResult DeleteReview(int gameId, int reviewId)
+        public async Task<IActionResult> DeleteReview(int gameId, int reviewId)
         {
             if (GameIdOrReviewIdIsInvalid(gameId, reviewId)) return BadRequest();
 
-            DeleteReviewViewModel? viewModel = reviewService.BuildDeleteReviewViewModel(gameId, reviewId);
+            DeleteReviewViewModel? viewModel = await reviewService.BuildDeleteReviewViewModelAsync(gameId, reviewId);
             if (viewModel == null) return NotFound();
 
             return View(viewModel);
@@ -86,11 +86,11 @@ namespace GameReviewHub.Controllers
 
 
         [HttpPost]
-        public IActionResult DeleteReview(DeleteReviewViewModel viewModel)
+        public async Task<IActionResult> DeleteReview(DeleteReviewViewModel viewModel)
         {
             if (viewModel.GameId <= 0 || viewModel.ReviewId <= 0) return BadRequest();
 
-            bool isDeleted = this.reviewService.DeleteReview(viewModel.GameId, viewModel.ReviewId);
+            bool isDeleted = await reviewService.DeleteReviewAsync(viewModel.GameId, viewModel.ReviewId);
             if (!isDeleted) return NotFound();
 
             return RedirectToAction(nameof(ByGame), new { gameId = viewModel.GameId });
@@ -98,11 +98,11 @@ namespace GameReviewHub.Controllers
 
 
         [HttpGet]
-        public IActionResult EditReview(int gameId, int reviewId)
+        public async Task<IActionResult> EditReview(int gameId, int reviewId)
         {
             if (GameIdOrReviewIdIsInvalid(gameId, reviewId)) return BadRequest();
 
-            EditReviewViewModel? editReviewViewModel = reviewService.BuildEditReviewViewModel(gameId, reviewId);
+            EditReviewViewModel? editReviewViewModel = await reviewService.BuildEditReviewViewModelAsync(gameId, reviewId);
             if (editReviewViewModel == null) return NotFound();
 
             return View(editReviewViewModel);
@@ -110,11 +110,11 @@ namespace GameReviewHub.Controllers
 
 
         [HttpPost]
-        public IActionResult EditReview(int gameId, int reviewId, EditReviewViewModel model)
+        public async Task<IActionResult> EditReview(int gameId, int reviewId, EditReviewViewModel model)
         {
             if (GameIdOrReviewIdIsInvalid(gameId, reviewId)) return BadRequest();
 
-            EditReviewViewModel? editReviewViewModel = reviewService.BuildEditReviewViewModel(gameId, reviewId);
+            EditReviewViewModel? editReviewViewModel = await reviewService.BuildEditReviewViewModelAsync(gameId, reviewId);
             if (editReviewViewModel == null) return NotFound();
 
             if (!ModelState.IsValid)
@@ -123,7 +123,7 @@ namespace GameReviewHub.Controllers
                 return View(editReviewViewModel);
             }
 
-            bool isEditReviewConfirmed = reviewService.ConfirmEditReview(model.GameId, model.ReviewId, model.Input);
+            bool isEditReviewConfirmed = await reviewService.ConfirmEditReviewAsync(model.GameId, model.ReviewId, model.Input);
             if (!isEditReviewConfirmed) return NotFound();
 
             return RedirectToAction(nameof(ByGame), new { gameId = model.GameId });
