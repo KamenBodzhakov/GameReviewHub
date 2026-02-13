@@ -24,7 +24,7 @@ namespace GameReviewHub.Data.Models
         [DataType(DataType.Date)]
         public DateTime ReleaseDate {  get; set; }  
 
-        // Add an image later
+        public string? ImagePath { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
         public virtual ICollection<GameGenre> GameGenres { get; set; } = new HashSet<GameGenre>();

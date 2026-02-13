@@ -11,6 +11,6 @@
 
         public double AverageRating { get; set; }
         public DateTime ReleaseDate { get; set; }
-
+        public string? ImagePath { get; set; }
     }
 }

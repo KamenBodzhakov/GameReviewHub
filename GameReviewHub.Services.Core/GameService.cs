@@ -35,6 +35,7 @@ namespace GameReviewHub.Services.Core
                 AverageRating = g.Reviews.Any()
                     ? g.Reviews.Average(r => r.Rating)
                     : 0.0
+                    ,ImagePath = g.ImagePath
             })
             .ToListAsync();
         }
@@ -52,6 +53,7 @@ namespace GameReviewHub.Services.Core
                     Developer = g.Developer,
                     ReleaseDate = g.ReleaseDate,
                     Description = g.Description,
+                    ImagePath = g.ImagePath,
                     Genres = g.GameGenres
                         .Select(gg => gg.Genre.Name)
                         .OrderBy(name => name)

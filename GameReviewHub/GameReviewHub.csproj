@@ -23,4 +23,8 @@
     <ProjectReference Include="..\GameReviewHub.ViewModels\GameReviewHub.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\games\" />
+  </ItemGroup>
+
 </Project>

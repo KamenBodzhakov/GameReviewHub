@@ -4,6 +4,7 @@ using GameReviewHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameReviewHub.Data.Migrations
 {
     [DbContext(typeof(GameReviewHubDbContext))]
-    partial class GameReviewHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260213205447_AddGameLogoUrl")]
+    partial class AddGameLogoUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace GameReviewHub.Data.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
-                    b.Property<string>("ImagePath")
+                    b.Property<string>("LogoUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReleaseDate")
@@ -61,7 +64,6 @@ namespace GameReviewHub.Data.Migrations
                             Id = 1,
                             Description = "A sprawling role-playing adventure in the Dungeons & Dragons universe, featuring deep narrative, tactical combat, and rich character progression.",
                             Developer = "Larian Studios",
-                            ImagePath = "/images/games/baldurs-gate-3.jpg",
                             ReleaseDate = new DateTime(2023, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Baldur's Gate 3"
                         },
@@ -70,7 +72,6 @@ namespace GameReviewHub.Data.Migrations
                             Id = 2,
                             Description = "A fast-paced roguelike action game where players fight to escape the Underworld, combining tight combat with evolving storytelling.",
                             Developer = "Supergiant Games",
-                            ImagePath = "/images/games/hades.jpg",
                             ReleaseDate = new DateTime(2020, 9, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Hades"
                         },
@@ -79,7 +80,6 @@ namespace GameReviewHub.Data.Migrations
                             Id = 3,
                             Description = "A wuxia-inspired open-world action-adventure RPG set in a fantastical version of historical China, blending martial arts combat with exploration.",
                             Developer = "Everstone Studio",
-                            ImagePath = "/images/games/where-winds-meet.jpg",
                             ReleaseDate = new DateTime(2025, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Where Winds Meet"
                         },
@@ -88,7 +88,6 @@ namespace GameReviewHub.Data.Migrations
                             Id = 4,
                             Description = "A visually stunning platform adventure about a young guardian spirit on a touching journey to save a dying forest filled with heart and challenge.",
                             Developer = "Moon Studios",
-                            ImagePath = "/images/games/ori-and-the-blind-forest.jpg",
                             ReleaseDate = new DateTime(2015, 3, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Ori and the Blind Forest"
                         },
@@ -97,18 +96,8 @@ namespace GameReviewHub.Data.Migrations
                             Id = 5,
                             Description = "A beloved roguelike deckbuilder that blends strategic card combat with procedural levels, challenging players to ascend the mysterious Spire.",
                             Developer = "Mega Crit",
-                            ImagePath = "/images/games/slay-the-spire.jpg",
                             ReleaseDate = new DateTime(2019, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Slay the Spire"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "An epic story set at the dawn of modern America. Follow Arthur Morgan and the Van der Linde gang as they struggle to survive in a changing world.",
-                            Developer = "Rockstar Games",
-                            ImagePath = "/images/games/red-dead-redemption-2.jpg",
-                            ReleaseDate = new DateTime(2018, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Red Dead Redemption 2"
                         });
                 });
 

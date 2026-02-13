@@ -4,6 +4,7 @@ using GameReviewHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameReviewHub.Data.Migrations
 {
     [DbContext(typeof(GameReviewHubDbContext))]
-    partial class GameReviewHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260213213230_SeedGameImagePaths")]
+    partial class SeedGameImagePaths
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,15 +103,6 @@ namespace GameReviewHub.Data.Migrations
                             ImagePath = "/images/games/slay-the-spire.jpg",
                             ReleaseDate = new DateTime(2019, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Slay the Spire"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "An epic story set at the dawn of modern America. Follow Arthur Morgan and the Van der Linde gang as they struggle to survive in a changing world.",
-                            Developer = "Rockstar Games",
-                            ImagePath = "/images/games/red-dead-redemption-2.jpg",
-                            ReleaseDate = new DateTime(2018, 10, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Red Dead Redemption 2"
                         });
                 });
 

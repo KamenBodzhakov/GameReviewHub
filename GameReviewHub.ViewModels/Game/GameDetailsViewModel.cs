@@ -14,5 +14,6 @@ namespace GameReviewHub.ViewModels.Game
         public DateTime ReleaseDate { get; set; }
         public string Description { get; set; } = null!;
         public IReadOnlyCollection<string> Genres { get; set; } = new HashSet<string>();
+        public string? ImagePath { get; set; }
     }
 }
