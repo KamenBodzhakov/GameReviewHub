@@ -2,10 +2,12 @@
 using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels;
 using GameReviewHub.ViewModels.Review;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameReviewHub.Controllers
 {
+    [Authorize]
     public class ReviewsController : Controller
     {
         private readonly IReviewService reviewService;
@@ -14,7 +16,7 @@ namespace GameReviewHub.Controllers
             this.reviewService = reviewService;
         }
 
-
+        [AllowAnonymous]
         [HttpGet("Reviews/ByGame/{gameId:int}")] // Route: /Reviews/ByGame/1 instead of /Reviews/ByGame?gameId=1 , for better RESTful design
         public async Task<IActionResult> ByGame(int gameId)
         {
@@ -26,7 +28,6 @@ namespace GameReviewHub.Controllers
             return View(game);
         }
 
-
         [HttpGet]
         public async Task<IActionResult> CreateReview(int gameId)
         {
@@ -37,7 +38,6 @@ namespace GameReviewHub.Controllers
 
             return View(viewModel);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> CreateReview(int gameId, CreateReviewInputModel input)

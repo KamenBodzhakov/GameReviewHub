@@ -1,9 +1,10 @@
 ﻿using GameReviewHub.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewHub.Data
 {
-    public class GameReviewHubDbContext : DbContext
+    public class GameReviewHubDbContext : IdentityDbContext
     {
         public GameReviewHubDbContext(DbContextOptions<GameReviewHubDbContext> dbContextOptions) 
             : base(dbContextOptions)
