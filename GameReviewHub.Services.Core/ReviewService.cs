@@ -20,6 +20,7 @@ namespace GameReviewHub.Services.Core
         {
             return await dbContext.Games
                 .Include(g => g.Reviews)
+                .ThenInclude(r => r.User)
                 .AsSplitQuery()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(g => g.Id == gameId);
@@ -40,7 +41,7 @@ namespace GameReviewHub.Services.Core
         }
 
 
-        public async Task<bool> CreateReviewAsync(int gameId, CreateReviewInputModel input)
+        public async Task<bool> CreateReviewAsync(int gameId, CreateReviewInputModel input, string userId)
         {
             bool gameExists = await dbContext.Games.AnyAsync(g => g.Id == gameId);
 
@@ -52,7 +53,8 @@ namespace GameReviewHub.Services.Core
                 Body = input.Body,
                 Rating = input.Rating,
                 GameId = gameId,
-                CreatedOn = DateTime.UtcNow
+                CreatedOn = DateTime.UtcNow,
+                UserId = userId
             };
 
             dbContext.Reviews.Add(review);

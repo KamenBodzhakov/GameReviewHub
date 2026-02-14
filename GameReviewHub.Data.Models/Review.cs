@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace GameReviewHub.Data.Models
 {
@@ -26,5 +27,8 @@ namespace GameReviewHub.Data.Models
         [Required]
         public int GameId { get; set; }
         public Game Game { get; set; } = null!;
+
+        public string UserId { get; set; } = null!;
+        public IdentityUser User { get; set; } = null!;
     }
 }

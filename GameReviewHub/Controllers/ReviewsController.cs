@@ -4,6 +4,7 @@ using GameReviewHub.ViewModels;
 using GameReviewHub.ViewModels.Review;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace GameReviewHub.Controllers
 {
@@ -53,7 +54,9 @@ namespace GameReviewHub.Controllers
                 return View(viewModel);
             }
 
-            bool isCreated = await reviewService.CreateReviewAsync(gameId, input);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            bool isCreated = await reviewService.CreateReviewAsync(gameId, input, userId);
             if (!isCreated) return NotFound();
 
             return RedirectToAction(nameof(ByGame), new { gameId });

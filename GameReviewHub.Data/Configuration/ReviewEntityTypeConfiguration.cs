@@ -105,7 +105,7 @@ namespace GameReviewHub.Data.Configuration
 
         public void Configure(EntityTypeBuilder<Review> entity)
         {
-            entity.HasData(this.Reviews);
+            //entity.HasData(this.Reviews);
         }
     }
 }

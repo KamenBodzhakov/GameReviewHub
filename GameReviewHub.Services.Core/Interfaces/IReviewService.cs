@@ -11,7 +11,7 @@ namespace GameReviewHub.Services.Core.Interfaces
 
         Task<CreateReviewViewModel?> BuildCreateReviewViewModelAsync(int gameId);
 
-        Task<bool> CreateReviewAsync(int gameId, CreateReviewInputModel input);
+        Task<bool> CreateReviewAsync(int gameId, CreateReviewInputModel input, string userId);
 
         Task<DeleteReviewViewModel?> BuildDeleteReviewViewModelAsync(int gameId, int reviewId);
         Task<bool> DeleteReviewAsync(int gameId, int reviewId);
