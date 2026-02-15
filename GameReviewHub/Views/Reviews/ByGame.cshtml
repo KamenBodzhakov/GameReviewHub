@@ -1,11 +1,10 @@
-﻿@using GameReviewHub.Data.Models;
-@model Game
+﻿@model GameReviewHub.ViewModels.Review.GameReviewsViewModel
 
 @{
-    ViewData["Title"] = $"{Model.Title} - Reviews";
+    ViewData["Title"] = $"{Model.GameTitle} - Reviews";
 }
 
-<h2 class="mb-4">@Model.Title</h2>
+<h2 class="mb-4">@Model.GameTitle</h2>
 
 @if (!Model.Reviews.Any())
 {
@@ -15,12 +14,12 @@
 }
 else
 {
-    @foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedOn))
+    @foreach (var review in Model.Reviews)
     {
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="mb-0">@review.Title</h5>
+                    <h5 class="mb-0">@review.ReviewTitle</h5>
 
                     <div class="d-flex align-items-center gap-2">
                         <span class="badge bg-success fs-6">
@@ -30,23 +29,23 @@ else
                         <a class="btn btn-sm btn-outline-primary"
                            asp-controller="Reviews"
                            asp-action="EditReview"
-                           asp-route-gameId="@Model.Id"
-                           asp-route-reviewId="@review.Id">
+                           asp-route-gameId="@Model.GameId"
+                           asp-route-reviewId="@review.ReviewId">
                             Edit
                         </a>
 
                         <a class="btn btn-sm btn-outline-danger"
                            asp-controller="Reviews"
                            asp-action="DeleteReview"
-                           asp-route-gameId="@Model.Id"
-                           asp-route-reviewId="@review.Id">
+                           asp-route-gameId="@Model.GameId"
+                           asp-route-reviewId="@review.ReviewId">
                             Delete
                         </a>
                     </div>
                 </div>
 
                 <small class="text-muted">
-                    Posted by <strong>@review.User.UserName</strong>
+                    Posted by <strong>@review.AuthorUserName</strong>
                     on @review.CreatedOn.ToString("yyyy-MM-dd")
                 </small>
 
@@ -68,10 +67,7 @@ else
     <a class="btn btn-success"
        asp-controller="Reviews"
        asp-action="CreateReview"
-       asp-route-gameId="@Model.Id">
+       asp-route-gameId="@Model.GameId">
         + Add Review
     </a>
-
 </div>
-
-

@@ -16,16 +16,6 @@ namespace GameReviewHub.Services.Core
             this.dbContext = dbContext;
         }
 
-        public async Task<Game?> GetGameWithReviewsAsync(int gameId)
-        {
-            return await dbContext.Games
-                .Include(g => g.Reviews)
-                .ThenInclude(r => r.User)
-                .AsSplitQuery()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(g => g.Id == gameId);
-        }
-
         public async Task<CreateReviewViewModel?> BuildCreateReviewViewModelAsync(int gameId)
         {
             CreateReviewViewModel? viewModel = await dbContext.Games
@@ -131,6 +121,48 @@ namespace GameReviewHub.Services.Core
             await dbContext.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<List<ReviewListItemViewModel>> GetAllReviewsAsync()
+        {
+            return await dbContext.Reviews
+                .OrderByDescending(r => r.CreatedOn)
+                .Select(r => new ReviewListItemViewModel
+                {
+                    ReviewId = r.Id,
+                    GameId = r.GameId,
+                    GameTitle = r.Game.Title,
+                    ReviewTitle = r.Title,
+                    Body = r.Body,
+                    Rating = r.Rating,
+                    CreatedOn = r.CreatedOn,
+                    AuthorUserName = r.User.UserName!
+                })
+                .ToListAsync();
+        }
+
+        public async Task<GameReviewsViewModel?> GetReviewsForGameAsync(int gameId)
+        {
+            return await dbContext.Games
+                .Where(g => g.Id == gameId)
+                .Select(g => new GameReviewsViewModel
+                {
+                    GameId = g.Id,
+                    GameTitle = g.Title,
+                    Reviews = g.Reviews.Select(r => new ReviewListItemViewModel
+                    {
+                        ReviewId = r.Id,
+                        GameId = r.GameId,
+                        GameTitle = r.Game.Title,
+                        ReviewTitle = r.Title,
+                        Body = r.Body,
+                        Rating = r.Rating,
+                        CreatedOn = r.CreatedOn,
+                        AuthorUserName = r.User.UserName!
+                    })
+                    .ToList()
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

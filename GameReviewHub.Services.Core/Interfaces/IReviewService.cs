@@ -7,8 +7,6 @@ namespace GameReviewHub.Services.Core.Interfaces
 {
     public interface IReviewService
     {
-        Task<Game?> GetGameWithReviewsAsync(int gameId);
-
         Task<CreateReviewViewModel?> BuildCreateReviewViewModelAsync(int gameId);
 
         Task<bool> CreateReviewAsync(int gameId, CreateReviewInputModel input, string userId);
@@ -18,5 +16,9 @@ namespace GameReviewHub.Services.Core.Interfaces
 
         Task<EditReviewViewModel?> BuildEditReviewViewModelAsync(int gameId, int reviewId);
         Task<bool> ConfirmEditReviewAsync(int gameId, int reviewId, CreateReviewInputModel input);
+
+        Task<List<ReviewListItemViewModel>> GetAllReviewsAsync();
+        Task<GameReviewsViewModel?> GetReviewsForGameAsync(int gameId);
+
     }
 }

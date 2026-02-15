@@ -1,0 +1,44 @@
+﻿@model List<GameReviewHub.ViewModels.Review.ReviewListItemViewModel>
+
+@{
+    ViewData["Title"] = "All Reviews";
+}
+
+<h2 class="mb-4">All Reviews</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No reviews yet.</div>
+}
+else
+{
+    @foreach (var review in Model)
+    {
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <h5 class="mb-0">@review.ReviewTitle</h5>
+                        <div class="text-muted">
+                            Game:
+                            <a asp-controller="Reviews"
+                               asp-action="ByGame"
+                               asp-route-gameId="@review.GameId">
+                                @review.GameTitle
+                            </a>
+                        </div>
+                    </div>
+
+                    <span class="badge bg-success fs-6">@review.Rating / 10</span>
+                </div>
+
+                <small class="text-muted">
+                    Posted by <strong>@review.AuthorUserName</strong>
+                    on @review.CreatedOn.ToString("yyyy-MM-dd")
+                </small>
+
+                <p class="mt-3 mb-0" style="white-space: pre-line;">@review.Body</p>
+            </div>
+        </div>
+    }
+}

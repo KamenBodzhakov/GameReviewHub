@@ -23,10 +23,11 @@ namespace GameReviewHub.Controllers
         {
             if (GameIdIsInvalid(gameId)) return BadRequest();
 
-            Game? game = await reviewService.GetGameWithReviewsAsync(gameId);
-            if (game == null) return NotFound();
+            GameReviewsViewModel? viewModel = await reviewService.GetReviewsForGameAsync(gameId);
 
-            return View(game);
+            if (viewModel == null) return NotFound();
+
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -130,6 +131,13 @@ namespace GameReviewHub.Controllers
             if (!isEditReviewConfirmed) return NotFound();
 
             return RedirectToAction(nameof(ByGame), new { gameId = model.GameId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllReviews()
+        {
+            List<ReviewListItemViewModel> allReviews = await reviewService.GetAllReviewsAsync();
+            return View(allReviews);
         }
 
 
