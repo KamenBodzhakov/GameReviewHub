@@ -1,8 +1,65 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">
+            Find Your Next Favorite Game
+        </h1>
+
+        <p class="lead text-muted mt-3">
+            Browse top titles, see real player feedback, and add your own perspective to the community.
+        </p>
+    </div>
+
+    <div class="row text-center mt-5">
+
+        <div class="col-md-4">
+            <div class="p-4">
+                <div class="mb-3 fs-1">🎮</div>
+                <h4>Browse the Collection</h4>
+                <p class="text-muted">
+                    Explore detailed game profiles, release info, and community ratings.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4">
+                <div class="mb-3 fs-1">⭐</div>
+                <h4>See What Players Say</h4>
+                <p class="text-muted">
+                    Read thoughtful reviews and honest scores from fellow gamers.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4">
+                <div class="mb-3 fs-1">✍️</div>
+                <h4>Join the Conversation</h4>
+                <p class="text-muted">
+                    Sign in to rate games and share your personal take.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+        <a asp-controller="Games"
+           asp-action="Index"
+           class="btn btn-primary btn-lg me-3">
+            Browse Games
+        </a>
+
+        <a asp-controller="Reviews"
+           asp-action="Reviews"
+           class="btn btn-outline-primary btn-lg">
+            View All Reviews
+        </a>
+    </div>
+
 </div>

@@ -40,9 +40,21 @@ button.accept-policy {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
 }
+
+.navbar {
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+}
+
+.nav-gaming {
+    color: #f8f9fa !important;
+    transition: 0.3s ease;
+}
+
+.nav-gaming:hover {
+    color: #00ffcc !important;
+}
+
