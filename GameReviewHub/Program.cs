@@ -12,7 +12,6 @@ namespace GameReviewHub
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DevConnection") ?? throw new InvalidOperationException("Connection string 'DevConnection' not found.");
             builder.Services.AddDbContext<GameReviewHubDbContext>(options =>
                 options.UseSqlServer(connectionString));
