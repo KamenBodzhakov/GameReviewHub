@@ -62,8 +62,8 @@ namespace GameReviewHub.Services.Core
                 {
                     ReviewId = r.Id,
                     GameId = r.GameId,
-                    ReviewTitle = r.Game.Title,
-                    GameTitle = r.Title,
+                    ReviewTitle = r.Title,
+                    GameTitle = r.Game.Title,
                     Rating = r.Rating,
                     CreatedOn = r.CreatedOn
                 })
@@ -136,7 +136,8 @@ namespace GameReviewHub.Services.Core
                     Body = r.Body,
                     Rating = r.Rating,
                     CreatedOn = r.CreatedOn,
-                    AuthorUserName = r.User.UserName!
+                    AuthorUserName = r.User.UserName!,
+                    AuthorUserId = r.UserId
                 })
                 .ToListAsync();
         }
@@ -158,7 +159,8 @@ namespace GameReviewHub.Services.Core
                         Body = r.Body,
                         Rating = r.Rating,
                         CreatedOn = r.CreatedOn,
-                        AuthorUserName = r.User.UserName!
+                        AuthorUserName = r.User.UserName!,
+                        AuthorUserId = r.UserId
                     })
                     .ToList()
                 })

@@ -12,6 +12,11 @@
       asp-route-reviewId="@Model.ReviewId"
       method="post">
 
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <input type="hidden" asp-for="GameId" />
+    <input type="hidden" asp-for="ReviewId" />
+
     <div class="mb-3">
         <label asp-for="Input.Title" class="form-label"></label>
         <input asp-for="Input.Title" class="form-control" />

@@ -105,7 +105,9 @@ namespace GameReviewHub.Data.Configuration
 
         public void Configure(EntityTypeBuilder<Review> entity)
         {
-            //entity.HasData(this.Reviews);
+            /* Reviews are meant to be added trough the application, so we won't seed them here.
+
+            entity.HasData(this.Reviews); */
         }
     }
 }

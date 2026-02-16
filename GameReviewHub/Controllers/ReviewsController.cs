@@ -127,13 +127,15 @@ namespace GameReviewHub.Controllers
                 return View(editReviewViewModel);
             }
 
-            bool isEditReviewConfirmed = await reviewService.ConfirmEditReviewAsync(model.GameId, model.ReviewId, model.Input);
+            bool isEditReviewConfirmed = await reviewService.ConfirmEditReviewAsync(gameId, reviewId, model.Input);
             if (!isEditReviewConfirmed) return NotFound();
 
-            return RedirectToAction(nameof(ByGame), new { gameId = model.GameId });
+            return RedirectToAction(nameof(ByGame), new { gameId });
         }
 
+        
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> AllReviews()
         {
             List<ReviewListItemViewModel> allReviews = await reviewService.GetAllReviewsAsync();

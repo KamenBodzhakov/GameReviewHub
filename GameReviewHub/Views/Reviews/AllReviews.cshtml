@@ -1,4 +1,9 @@
 ﻿@model List<GameReviewHub.ViewModels.Review.ReviewListItemViewModel>
+@using System.Security.Claims
+
+@{
+    string? currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
 
 @{
     ViewData["Title"] = "All Reviews";
@@ -15,8 +20,10 @@ else
     @foreach (var review in Model)
     {
         <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="card-body d-flex flex-column">
+
+                <!-- Top -->
+                <div class="d-flex justify-content-between align-items-start mb-2">
                     <div>
                         <h5 class="mb-0">@review.ReviewTitle</h5>
                         <div class="text-muted">
@@ -37,7 +44,30 @@ else
                     on @review.CreatedOn.ToString("yyyy-MM-dd")
                 </small>
 
-                <p class="mt-3 mb-0" style="white-space: pre-line;">@review.Body</p>
+                <p class="mt-3 mb-3" style="white-space: pre-line;">@review.Body</p>
+
+                <!-- Bottom-right buttons (owner only) -->
+                @if (User.Identity?.IsAuthenticated == true && currentUserId == review.AuthorUserId)
+                {
+                    <div class="mt-auto text-end">
+                        <a class="btn btn-outline-primary me-2"
+                           asp-controller="Reviews"
+                           asp-action="EditReview"
+                           asp-route-gameId="@review.GameId"
+                           asp-route-reviewId="@review.ReviewId">
+                            Edit
+                        </a>
+
+                        <a class="btn btn-outline-danger"
+                           asp-controller="Reviews"
+                           asp-action="DeleteReview"
+                           asp-route-gameId="@review.GameId"
+                           asp-route-reviewId="@review.ReviewId">
+                            Delete
+                        </a>
+                    </div>
+                }
+
             </div>
         </div>
     }
