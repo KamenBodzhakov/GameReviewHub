@@ -46,19 +46,21 @@ else
 
                         <p class="card-text mt-2">@game.ShortDescription</p>
 
-                        <a asp-controller="Games"
-                           asp-action="Details"
-                           asp-route-id="@game.Id"
-                           class="btn btn-primary mt-2">
-                            Details
-                        </a>
+                        <div class="mt-auto d-flex gap-2 pt-3">
+                            <a asp-controller="Games"
+                               asp-action="Details"
+                               asp-route-id="@game.Id"
+                               class="btn btn-primary flex-fill fw-semibold">
+                                Details
+                            </a>
 
-                        <a asp-controller="Reviews"
-                           asp-action="ByGame"
-                           asp-route-gameId="@game.Id"
-                           class="btn btn-primary mt-2">
-                            Reviews
-                        </a>
+                            <a asp-controller="Reviews"
+                               asp-action="ByGame"
+                               asp-route-gameId="@game.Id"
+                               class="btn btn-warning flex-fill fw-semibold">
+                                💬 Reviews
+                            </a>
+                        </div>
 
                     </div>
                 </div>
