@@ -12,5 +12,6 @@ namespace GameReviewHub.ViewModels.Review
         public DateTime CreatedOn { get; set; }
         public string AuthorUserName { get; set; } = null!;
         public string AuthorUserId { get; set; } = null!;
+        public int VoteCount { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace GameReviewHub.Data
 {
     public class GameReviewHubDbContext : IdentityDbContext
     {
-        public GameReviewHubDbContext(DbContextOptions<GameReviewHubDbContext> dbContextOptions) 
+        public GameReviewHubDbContext(DbContextOptions<GameReviewHubDbContext> dbContextOptions)
             : base(dbContextOptions)
         {
 
@@ -20,6 +20,8 @@ namespace GameReviewHub.Data
 
         public virtual DbSet<Review> Reviews { get; set; } = null!;
 
+        public virtual DbSet<ReviewVote> ReviewVotes { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -27,6 +29,18 @@ namespace GameReviewHub.Data
             modelBuilder.Entity<GameGenre>().HasKey(gg => new { gg.GameId, gg.GenreId });
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(GameReviewHubDbContext).Assembly);
+
+            modelBuilder.Entity<ReviewVote>()
+            .HasOne(v => v.Review)
+            .WithMany(r => r.Votes)
+            .HasForeignKey(v => v.ReviewId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ReviewVote>()
+            .HasOne(v => v.User)
+            .WithMany()
+            .HasForeignKey(v => v.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
