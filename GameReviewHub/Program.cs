@@ -17,12 +17,15 @@ namespace GameReviewHub
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => {
+            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = true;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             })
                 .AddEntityFrameworkStores<GameReviewHubDbContext>();
 
@@ -30,6 +33,7 @@ namespace GameReviewHub
 
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IGameService, GameService>();
+            builder.Services.AddScoped<IReviewVoteService, ReviewVoteService>();
 
             var app = builder.Build();
 

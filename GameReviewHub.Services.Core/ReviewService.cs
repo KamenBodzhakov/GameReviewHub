@@ -137,7 +137,8 @@ namespace GameReviewHub.Services.Core
                     Rating = r.Rating,
                     CreatedOn = r.CreatedOn,
                     AuthorUserName = r.User.UserName!,
-                    AuthorUserId = r.UserId
+                    AuthorUserId = r.UserId,
+                    VoteCount = r.Votes.Count(v => v.IsUpvote)
                 })
                 .ToListAsync();
         }
@@ -160,7 +161,8 @@ namespace GameReviewHub.Services.Core
                         Rating = r.Rating,
                         CreatedOn = r.CreatedOn,
                         AuthorUserName = r.User.UserName!,
-                        AuthorUserId = r.UserId
+                        AuthorUserId = r.UserId,
+                        VoteCount = r.Votes.Count(v => v.IsUpvote)
                     })
                     .ToList()
                 })
