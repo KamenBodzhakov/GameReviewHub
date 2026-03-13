@@ -2,6 +2,7 @@
 using GameReviewHub.Data.Models;
 using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Review;
+using GameReviewHub.ViewModels.ReviewComment;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewHub.Services.Core
@@ -137,7 +138,16 @@ namespace GameReviewHub.Services.Core
                     CreatedOn = r.CreatedOn,
                     AuthorUserName = r.User.UserName!,
                     AuthorUserId = r.UserId,
-                    VoteCount = r.Votes.Count(v => v.IsUpvote)
+                    VoteCount = r.Votes.Count(v => v.IsUpvote),
+                    Comments = r.Comments.Select(c => new ReviewCommentViewModel
+                    {
+                        Id = c.Id,
+                        Body = c.Body,
+                        CreatedOn = c.CreatedOn,
+                        AuthorUserId = c.UserId,
+                        AuthorUserName = c.User.UserName!
+                    }).ToList()
+
                 })
                 .ToListAsync();
         }
@@ -161,7 +171,15 @@ namespace GameReviewHub.Services.Core
                         CreatedOn = r.CreatedOn,
                         AuthorUserName = r.User.UserName!,
                         AuthorUserId = r.UserId,
-                        VoteCount = r.Votes.Count(v => v.IsUpvote)
+                        VoteCount = r.Votes.Count(v => v.IsUpvote),
+                        Comments = r.Comments.Select(c => new ReviewCommentViewModel
+                        {
+                            Id = c.Id,
+                            Body = c.Body,
+                            CreatedOn = c.CreatedOn,
+                            AuthorUserId = c.UserId,
+                            AuthorUserName = c.User.UserName!
+                        }).ToList()
                     })
                     .ToList()
                 })

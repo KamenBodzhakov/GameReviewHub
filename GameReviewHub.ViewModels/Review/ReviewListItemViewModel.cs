@@ -1,4 +1,6 @@
 ﻿
+using GameReviewHub.ViewModels.ReviewComment;
+
 namespace GameReviewHub.ViewModels.Review
 {
     public class ReviewListItemViewModel
@@ -13,5 +15,7 @@ namespace GameReviewHub.ViewModels.Review
         public string AuthorUserName { get; set; } = null!;
         public string AuthorUserId { get; set; } = null!;
         public int VoteCount { get; set; }
+
+        public List<ReviewCommentViewModel> Comments { get; set; } = new();
     }
 }
