@@ -34,6 +34,7 @@ namespace GameReviewHub
             builder.Services.AddScoped<IReviewService, ReviewService>();
             builder.Services.AddScoped<IGameService, GameService>();
             builder.Services.AddScoped<IReviewVoteService, ReviewVoteService>();
+            builder.Services.AddScoped<IReviewCommentService, ReviewCommentService>();
 
             var app = builder.Build();
 

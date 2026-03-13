@@ -1,5 +1,4 @@
 ﻿using GameReviewHub.Data;
-using GameReviewHub.Data.Models;
 using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
 using Microsoft.EntityFrameworkCore;

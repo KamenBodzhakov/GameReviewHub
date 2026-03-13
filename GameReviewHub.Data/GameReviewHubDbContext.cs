@@ -22,6 +22,8 @@ namespace GameReviewHub.Data
 
         public virtual DbSet<ReviewVote> ReviewVotes { get; set; } = null!;
 
+        public virtual DbSet<ReviewComment> ReviewComments { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -41,6 +43,19 @@ namespace GameReviewHub.Data
             .WithMany()
             .HasForeignKey(v => v.UserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReviewComment>()
+                .HasOne(c => c.Review)
+                .WithMany(r => r.Comments)
+                .HasForeignKey(c => c.ReviewId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReviewComment>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

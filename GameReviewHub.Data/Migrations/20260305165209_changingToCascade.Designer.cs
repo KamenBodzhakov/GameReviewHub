@@ -4,6 +4,7 @@ using GameReviewHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameReviewHub.Data.Migrations
 {
     [DbContext(typeof(GameReviewHubDbContext))]
-    partial class GameReviewHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260305165209_changingToCascade")]
+    partial class changingToCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,38 +317,6 @@ namespace GameReviewHub.Data.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("GameReviewHub.Data.Models.ReviewComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ReviewComments");
-                });
-
             modelBuilder.Entity("GameReviewHub.Data.Models.ReviewVote", b =>
                 {
                     b.Property<int>("Id")
@@ -614,25 +585,6 @@ namespace GameReviewHub.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("GameReviewHub.Data.Models.ReviewComment", b =>
-                {
-                    b.HasOne("GameReviewHub.Data.Models.Review", "Review")
-                        .WithMany("Comments")
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Review");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("GameReviewHub.Data.Models.ReviewVote", b =>
                 {
                     b.HasOne("GameReviewHub.Data.Models.Review", "Review")
@@ -717,8 +669,6 @@ namespace GameReviewHub.Data.Migrations
 
             modelBuilder.Entity("GameReviewHub.Data.Models.Review", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618

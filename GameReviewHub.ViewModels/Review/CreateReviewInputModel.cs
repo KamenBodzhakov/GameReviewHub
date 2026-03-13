@@ -1,4 +1,4 @@
-﻿namespace GameReviewHub.ViewModels
+﻿namespace GameReviewHub.ViewModels.Review
 {
     using System.ComponentModel.DataAnnotations;
     using static Common.ValidationConstants.Review;

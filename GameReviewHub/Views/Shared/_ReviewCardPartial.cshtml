@@ -26,6 +26,19 @@
                 }
             </div>
 
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="mt-2">
+                    <a class="btn btn-sm btn-outline-secondary"
+                       asp-controller="ReviewComments"
+                       asp-action="CreateReviewComment"
+                       asp-route-reviewId="@Model.ReviewId"
+                       asp-route-gameId="@Model.GameId">
+                        Add Comment
+                    </a>
+                </div>
+            }
+
             <span class="badge bg-success fs-6">
                 @Model.Rating / 10
             </span>

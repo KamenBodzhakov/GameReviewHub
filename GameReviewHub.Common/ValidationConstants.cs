@@ -26,6 +26,12 @@
             public const int NameMinLength = 3;
             public const int NameMaxLength = 30;
         }
-        
+
+        public static class ReviewComment
+        {
+            public const int BodyMinLength = 2;
+            public const int BodyMaxLength = 500;
+        }
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using GameReviewHub.Data.Models;
-using GameReviewHub.Services.Core.Interfaces;
-using GameReviewHub.ViewModels;
+﻿using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Review;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

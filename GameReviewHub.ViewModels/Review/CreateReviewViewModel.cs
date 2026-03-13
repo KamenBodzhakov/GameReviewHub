@@ -1,4 +1,6 @@
-﻿namespace GameReviewHub.ViewModels.Review
+﻿using GameReviewHub.ViewModels.ReviewComment;
+
+namespace GameReviewHub.ViewModels.Review
 {
     public class CreateReviewViewModel
     {

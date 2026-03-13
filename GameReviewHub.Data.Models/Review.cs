@@ -32,5 +32,7 @@ namespace GameReviewHub.Data.Models
         public IdentityUser User { get; set; } = null!;
 
         public ICollection<ReviewVote> Votes { get; set; } = new HashSet<ReviewVote>();
+
+        public ICollection<ReviewComment> Comments { get; set; } = new HashSet<ReviewComment>();
     }
 }

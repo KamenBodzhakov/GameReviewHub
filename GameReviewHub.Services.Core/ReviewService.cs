@@ -1,7 +1,6 @@
 ﻿using GameReviewHub.Data;
 using GameReviewHub.Data.Models;
 using GameReviewHub.Services.Core.Interfaces;
-using GameReviewHub.ViewModels;
 using GameReviewHub.ViewModels.Review;
 using Microsoft.EntityFrameworkCore;
 
@@ -167,6 +166,11 @@ namespace GameReviewHub.Services.Core
                     .ToList()
                 })
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> ReviewExistsAsync(int reviewId)
+        {
+            return await dbContext.Reviews.AnyAsync(r => r.Id == reviewId);
         }
     }
 }
