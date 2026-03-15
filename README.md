@@ -1,8 +1,9 @@
 
 🚀 GameReviewHub
 
-A web application for browsing games and creating user-generated reviews, built to demonstrate ASP.NET Core MVC fundamentals and clean architecture principles.
+GameReviewHub is a web application developed as part of the ASP.NET Fundamentals course. It allows users to browse games and after authentication to create, edit, and delete reviews.
 
+Users can also interact with reviews by **upvoting them and adding comments**, enabling discussion around each review.
 
 📋 Table of Contents
 
@@ -78,26 +79,36 @@ The application will start on a local development URL (e.g., https://localhost:x
 
 5. 📁 Project Structure
 
-GameReviewHub/
-│
 ├── GameReviewHub.Web/          # Presentation Layer (MVC)
 │   ├── Controllers/            # MVC Controllers
+│   │   ├── ReviewsController
+│   │   └── ReviewCommentsController
+│   │
 │   ├── Views/                  # Razor Views
+│   │   ├── Reviews
+│   │   └── ReviewComments
+│   │
 │   ├── wwwroot/                # Static files (CSS, JS, images)
 │   ├── ViewModels/             # ViewModels for UI separation
+│   │   ├── Review
+│   │   └── ReviewComment
+│   │
 │   └── Program.cs              # Application entry point
 │
 ├── GameReviewHub.Services/     # Business Logic Layer
-│   ├── Core/                   # Service implementations
-│   └── Interfaces/             # Service contracts
+│   ├── Core/
+│   │   ├── ReviewService
+│   │   └── ReviewCommentService
+│   │
+│   └── Interfaces/
+│       ├── IReviewService
+│       └── IReviewCommentService
 │
-├── GameReviewHub.Data/         # Data Access Layer
-│   ├── Models/                 # Entity models
-│   ├── Configuration/          # Entity configurations
-│   ├── Migrations/             # EF Core migrations
-│   └── GameReviewHubDbContext.cs
-│
-└── GameReviewHub.sln           # Solution file
+├── GameReviewHub.Data/
+│   ├── Models/
+│   │   ├── Review
+│   │   ├── ReviewVote
+│   │   └── ReviewComment
 
 
 
@@ -122,6 +133,22 @@ Create reviews (authenticated users only)
 Edit and delete own reviews
 
 View all reviews across all games
+
+Review Interaction
+
+Users can **upvote reviews** to show appreciation for helpful feedback.
+
+Each review displays the current **vote count**, and users can vote once per review.
+
+Review Comments
+
+Authenticated users can add **comments under reviews**, enabling discussion and feedback between users.
+
+Features include:
+
+- Creating comments under a review
+- Viewing comments directly beneath each review
+- Displaying comment author and creation date
 
 
 ✅ Validation
@@ -154,11 +181,11 @@ Click View Reviews to see reviews for a specific game.
 
 Register and log in to:
 
-Add a new review
-
-Edit your own reviews
-
-Delete your own reviews
+Add a new review  
+Edit your own reviews  
+Delete your own reviews  
+Upvote helpful reviews  
+Add comments to reviews
 
 Use All Reviews to browse reviews across all games.
 
