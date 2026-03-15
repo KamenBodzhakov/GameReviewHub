@@ -1,4 +1,5 @@
-﻿using GameReviewHub.Services.Core.Interfaces;
+﻿using GameReviewHub.Common;
+using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Review;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,7 @@ namespace GameReviewHub.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReview(int gameId, CreateReviewInputModel input)
         {
             if (GameIdIsInvalid(gameId)) return BadRequest();
@@ -55,10 +57,25 @@ namespace GameReviewHub.Controllers
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-            bool isCreated = await reviewService.CreateReviewAsync(gameId, input, userId);
-            if (!isCreated) return NotFound();
+            try
+            {
+                bool isCreated = await reviewService.CreateReviewAsync(gameId, input, userId);
 
-            return RedirectToAction(nameof(ByGame), new { gameId });
+                if (!isCreated)
+                {
+                    ModelState.AddModelError(string.Empty, ErrorMessages.ReviewCreationFailed);
+                    viewModel.Input = input;
+                    return View(viewModel);
+                }
+
+                return RedirectToAction(nameof(ByGame), new { gameId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessages.UnexpectedError);
+                viewModel.Input = input;
+                return View(viewModel);
+            }
         }
 
 
@@ -88,14 +105,29 @@ namespace GameReviewHub.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteReview(DeleteReviewViewModel viewModel)
         {
-            if (viewModel.GameId <= 0 || viewModel.ReviewId <= 0) return BadRequest();
+            if (viewModel.GameId <= 0 || viewModel.ReviewId <= 0)
+                return BadRequest();
 
-            bool isDeleted = await reviewService.DeleteReviewAsync(viewModel.GameId, viewModel.ReviewId);
-            if (!isDeleted) return NotFound();
+            try
+            {
+                bool isDeleted = await reviewService.DeleteReviewAsync(viewModel.GameId, viewModel.ReviewId);
 
-            return RedirectToAction(nameof(ByGame), new { gameId = viewModel.GameId });
+                if (!isDeleted)
+                {
+                    ModelState.AddModelError(string.Empty, ErrorMessages.ReviewDeletionFailed);
+                    return View(viewModel);
+                }
+
+                return RedirectToAction(nameof(ByGame), new { gameId = viewModel.GameId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessages.UnexpectedError);
+                return View(viewModel);
+            }
         }
 
 
@@ -112,6 +144,7 @@ namespace GameReviewHub.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditReview(int gameId, int reviewId, EditReviewViewModel model)
         {
             if (GameIdOrReviewIdIsInvalid(gameId, reviewId)) return BadRequest();
@@ -125,13 +158,28 @@ namespace GameReviewHub.Controllers
                 return View(editReviewViewModel);
             }
 
-            bool isEditReviewConfirmed = await reviewService.ConfirmEditReviewAsync(gameId, reviewId, model.Input);
-            if (!isEditReviewConfirmed) return NotFound();
+            try
+            {
+                bool isEditReviewConfirmed = await reviewService.ConfirmEditReviewAsync(gameId, reviewId, model.Input);
 
-            return RedirectToAction(nameof(ByGame), new { gameId });
+                if (!isEditReviewConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, ErrorMessages.ReviewEditingFailed);
+                    editReviewViewModel.Input = model.Input;
+                    return View(editReviewViewModel);
+                }
+
+                return RedirectToAction(nameof(ByGame), new { gameId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessages.UnexpectedError);
+                editReviewViewModel.Input = model.Input;
+                return View(editReviewViewModel);
+            }
         }
 
-        
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> AllReviews()

@@ -1,10 +1,13 @@
-﻿using GameReviewHub.Services.Core.Interfaces;
+﻿using GameReviewHub.Common;
+using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.ReviewComment;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace GameReviewHub.Controllers
 {
+    [Authorize]
     public class ReviewCommentsController : Controller
     {
         private IReviewCommentService reviewCommentService;
@@ -34,12 +37,19 @@ namespace GameReviewHub.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReviewComment(CreateReviewCommentViewModel viewModel)
         {
-            if (viewModel.ReviewId <= 0 || viewModel.GameId <= 0) return BadRequest();
+            if (viewModel.ReviewId <= 0 || viewModel.GameId <= 0)
+            {
+                return BadRequest();
+            }
 
             bool reviewExists = await reviewService.ReviewExistsAsync(viewModel.ReviewId);
-            if (!reviewExists) return NotFound();
+            if (!reviewExists)
+            {
+                return NotFound();
+            }
 
             if (!ModelState.IsValid)
             {
@@ -48,11 +58,23 @@ namespace GameReviewHub.Controllers
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-            bool isCreated = await reviewCommentService.AddCommentAsync(viewModel.ReviewId, viewModel.Input, userId);
+            try
+            {
+                bool isCreated = await reviewCommentService.AddCommentAsync(viewModel.ReviewId, viewModel.Input, userId);
 
-            if (!isCreated) return NotFound();
+                if (!isCreated)
+                {
+                    ModelState.AddModelError(string.Empty, ErrorMessages.CommentCreationFailed);
+                    return View(viewModel);
+                }
 
-            return RedirectToAction("ByGame", "Reviews", new { gameId = viewModel.GameId });
+                return RedirectToAction("ByGame", "Reviews", new { gameId = viewModel.GameId });
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessages.UnexpectedError);
+                return View(viewModel);
+            }
         }
 
 

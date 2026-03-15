@@ -33,5 +33,15 @@
             public const int BodyMaxLength = 500;
         }
 
+        public static class ApplicationUser
+        {
+            public const int UserNameMaxLength = 200;
+        }
+
+        public static class ApplicationRole
+        {
+            public const int RoleNameMaxLength = 200;
+        }
+
     }
 }

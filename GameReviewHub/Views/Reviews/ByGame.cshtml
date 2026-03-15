@@ -64,15 +64,20 @@ else
 
 @section Scripts {
     <script>
-        const alert = document.getElementById("voteAlert");
+        document.addEventListener("DOMContentLoaded", function () {
+            const alertBox = document.getElementById("voteAlert");
 
-        if (alert) {
-            setTimeout(() => {
-                alert.style.transition = "opacity 0.5s";
-                alert.style.opacity = "0";
+            if (alertBox) {
+                setTimeout(() => {
+                    alertBox.style.transition = "opacity 0.5s";
+                    alertBox.style.opacity = "0";
 
-                setTimeout(() => alert.remove(), 500);
-            }, 3000);
-        }
+                    setTimeout(() => {
+                        alertBox.remove();
+                    }, 500);
+                }, 3000);
+            }
+        });
     </script>
+}
 }

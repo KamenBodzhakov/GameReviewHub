@@ -30,7 +30,7 @@ namespace GameReviewHub.Controllers
             if (id <= 0) return NotFound();  // Slugs could be added as a future improvement. Example: Games/Hades/Details
 
             GameDetailsViewModel? viewModel = await gameService.GetGameDetailsAsync(id);
-            if (viewModel == null) return NotFound();
+            if (viewModel == null) return BadRequest();
 
             return View(viewModel);
         }

@@ -1,4 +1,5 @@
 using GameReviewHub.Data;
+using GameReviewHub.Data.Models;
 using GameReviewHub.Services.Core;
 using GameReviewHub.Services.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +28,7 @@ namespace GameReviewHub
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<GameReviewHubDbContext>();
 
             builder.Services.AddControllersWithViews();
@@ -37,6 +39,7 @@ namespace GameReviewHub
             builder.Services.AddScoped<IReviewCommentService, ReviewCommentService>();
 
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

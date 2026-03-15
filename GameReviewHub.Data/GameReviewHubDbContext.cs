@@ -1,4 +1,5 @@
 ﻿using GameReviewHub.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,12 +7,10 @@ namespace GameReviewHub.Data
 {
     public class GameReviewHubDbContext : IdentityDbContext
     {
-        public GameReviewHubDbContext(DbContextOptions<GameReviewHubDbContext> dbContextOptions)
-            : base(dbContextOptions)
+        public GameReviewHubDbContext(DbContextOptions<GameReviewHubDbContext> options)
+            : base(options)
         {
-
         }
-
         public virtual DbSet<Game> Games { get; set; } = null!;
 
         public virtual DbSet<GameGenre> GamesGenres { get; set; } = null!;
