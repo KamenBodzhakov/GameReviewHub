@@ -1,5 +1,6 @@
 using GameReviewHub.Data;
 using GameReviewHub.Data.Models;
+using GameReviewHub.Seed;
 using GameReviewHub.Services.Core;
 using GameReviewHub.Services.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +27,7 @@ namespace GameReviewHub
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<GameReviewHubDbContext>();
@@ -40,6 +41,8 @@ namespace GameReviewHub
 
             var app = builder.Build();
 
+            IdentitySeeder.SeedRoles(app);
+            IdentitySeeder.AssignAdmin(app, "everdr3am@gmail.com");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
