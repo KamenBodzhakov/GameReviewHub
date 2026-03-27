@@ -150,6 +150,22 @@ Features include:
 - Viewing comments directly beneath each review
 - Displaying comment author and creation date
 
+Authentication & Authorization (Extended)
+
+The application uses the built-in ASP.NET Core Identity system for managing users and roles.
+
+👤 User Roles
+The system defines two primary roles:
+User
+Administrator
+
+⚙️ Role Management
+Roles are automatically seeded on application startup
+Implemented via a custom IdentitySeeder class
+Ensures required roles always exist in the database
+
+👑 Administrator Setup
+An administrator user is assigned automatically during application startup:
 
 ✅ Validation
 
@@ -157,6 +173,7 @@ Server-side validation using Data Annotations
 
 Client-side validation with unobtrusive validation scripts
 
+⚠️ Error Handling
 
 🏗️ Architecture Highlights
 
