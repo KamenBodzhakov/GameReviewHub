@@ -9,5 +9,10 @@
         public const string ReviewCreationFailed = "Unable to create review.";
         public const string ReviewEditingFailed = "Unable to edit review.";
         public const string ReviewDeletionFailed = "Unable to delete review.";
+
+        public const string GameCreationFailed = "Unable to create game.";
+        public const string InvalidGenreSelection = "Invalid genre selection.";
+        public const string GenreRequired = "Select at least one genre.";
+        public const string InvalidReleaseDate = "Enter a valid release date.";
     }
 }

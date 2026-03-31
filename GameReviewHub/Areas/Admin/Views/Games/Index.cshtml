@@ -1,0 +1,22 @@
+﻿@using GameReviewHub.ViewModels.Game
+@model IEnumerable<GameListItemViewModel>
+
+@{
+    ViewData["Title"] = "Manage Games";
+    ViewData["IsAdminView"] = true;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Manage Games</h2>
+
+    <a asp-area="Admin"
+       asp-controller="Games"
+       asp-action="Create"
+       class="btn btn-warning">
+        + Add Game
+    </a>
+</div>
+
+<partial name="_GameCardsPartial" model="Model" />
+
+<partial name="_GameCardsPartial" model="Model" />

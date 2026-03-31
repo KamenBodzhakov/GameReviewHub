@@ -18,7 +18,15 @@ namespace GameReviewHub.Data.Configuration
             new Genre { Id = OpenWorldGenreId, Name = "Open World" },
             new Genre { Id = PlatformerGenreId, Name = "Platformer" },
             new Genre { Id = StrategyGenreId, Name = "Strategy" },
-            new Genre { Id = DeckbuilderGenreId, Name = "Deckbuilder" }
+            new Genre { Id = DeckbuilderGenreId, Name = "Deckbuilder" },
+            new Genre { Id = ShooterGenreId, Name = "Shooter" },
+            new Genre { Id = SimulationGenreId, Name = "Simulation" },
+            new Genre { Id = RacingGenreId, Name = "Racing" },
+            new Genre { Id = SportsGenreId, Name = "Sports" },
+            new Genre { Id = PuzzleGenreId, Name = "Puzzle" },
+            new Genre { Id = HorrorGenreId, Name = "Horror" },
+            new Genre { Id = SandboxGenreId, Name = "Sandbox" },
+            new Genre { Id = MmoGenreId, Name = "MMO" }
         };
 
         public void Configure(EntityTypeBuilder<Genre> entity)

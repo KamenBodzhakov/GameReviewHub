@@ -39,6 +39,15 @@
                         <li class="nav-item">
                             <a class="nav-link nav-gaming" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                    Admin
+                                </a>
+                            </li>
+                        }
                     </ul>
 
                     <ul class="navbar-nav">

@@ -1,4 +1,5 @@
 ﻿using GameReviewHub.Data;
+using GameReviewHub.Data.Models;
 using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,8 @@ namespace GameReviewHub.Services.Core
                 AverageRating = g.Reviews.Any()
                     ? g.Reviews.Average(r => r.Rating)
                     : 0.0
-                    ,ImagePath = g.ImagePath
+                    ,
+                ImagePath = g.ImagePath
             })
             .ToListAsync();
         }
@@ -60,5 +62,71 @@ namespace GameReviewHub.Services.Core
                 })
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<CreateGameViewModel> BuildCreateGameViewModelAsync()
+        {
+            CreateGameViewModel viewModel = new CreateGameViewModel
+            {
+                Input = new CreateGameInputModel
+                {
+                    ReleaseDate = DateTime.Today
+                },
+                AvailableGenres = await GetAllGenreOptionsAsync()
+            };
+
+            return viewModel;
+        }
+
+        public async Task<bool> CreateGameAsync(CreateGameInputModel input)
+        {
+            List<int> selectedGenreIds = input.SelectedGenreIds
+                .Distinct()
+                .ToList();
+
+            List<Genre> selectedGenres = await dbContext.Genres
+                .Where(g => selectedGenreIds.Contains(g.Id))
+                .ToListAsync();
+
+            if (selectedGenres.Count != selectedGenreIds.Count)
+            {
+                return false;
+            }
+
+            Game game = new Game
+            {
+                Title = input.Title,
+                Developer = input.Developer,
+                Description = input.Description,
+                ReleaseDate = input.ReleaseDate,
+                ImagePath = input.ImagePath
+            };
+
+            foreach (Genre genre in selectedGenres)
+            {
+                game.GameGenres.Add(new GameGenre
+                {
+                    GenreId = genre.Id
+                });
+            }
+
+            dbContext.Games.Add(game);
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<IEnumerable<GameGenreOptionViewModel>> GetAllGenreOptionsAsync()
+        {
+            return await dbContext.Genres
+                .AsNoTracking()
+                .OrderBy(g => g.Name)
+                .Select(g => new GameGenreOptionViewModel
+                {
+                    Id = g.Id,
+                    Name = g.Name
+                })
+                .ToListAsync();
+        }
     }
 }
+

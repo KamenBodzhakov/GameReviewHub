@@ -6,5 +6,8 @@ namespace GameReviewHub.Services.Core.Interfaces
     {
         Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync();
         Task<GameDetailsViewModel?> GetGameDetailsAsync(int gameId);
+        Task<CreateGameViewModel> BuildCreateGameViewModelAsync();
+        Task<bool> CreateGameAsync(CreateGameInputModel input);
+        Task<IEnumerable<GameGenreOptionViewModel>> GetAllGenreOptionsAsync();
     }
 }

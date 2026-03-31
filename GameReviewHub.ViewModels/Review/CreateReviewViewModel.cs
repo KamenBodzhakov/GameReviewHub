@@ -6,7 +6,6 @@ namespace GameReviewHub.ViewModels.Review
     {
         public int GameId { get; set; }
         public string GameTitle { get; set; } = null!;
-
         public CreateReviewInputModel Input { get; set; } = new();
     }
 }
