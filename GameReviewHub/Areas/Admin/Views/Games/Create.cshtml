@@ -30,7 +30,9 @@
 
     <div class="mb-3">
         <label asp-for="Input.ReleaseDate" class="form-label"></label>
-        <input asp-for="Input.ReleaseDate" type="date" class="form-control"
+        <input asp-for="Input.ReleaseDate"
+               type="date"
+               class="form-control"
                min="1970-01-01"
                max="2100-12-31" />
         <span asp-validation-for="Input.ReleaseDate" class="text-danger"></span>
@@ -39,6 +41,11 @@
     <div class="mb-3">
         <label asp-for="Input.ImagePath" class="form-label"></label>
         <input asp-for="Input.ImagePath" class="form-control" />
+
+        <small class="form-text text-muted">
+            Example: /images/games/my-game.jpg
+        </small>
+
         <span asp-validation-for="Input.ImagePath" class="text-danger"></span>
     </div>
 

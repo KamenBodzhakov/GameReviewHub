@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static GameReviewHub.Common.ErrorMessages;
 using static GameReviewHub.Common.ValidationConstants.Game;
 
 namespace GameReviewHub.ViewModels.Game
 {
-    using static GameReviewHub.Common.ErrorMessages;
-
     public class CreateGameInputModel
     {
         [Required]
@@ -20,14 +19,11 @@ namespace GameReviewHub.ViewModels.Game
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = InvalidReleaseDate)]
         [DataType(DataType.Date)]
-        [Range(typeof(DateTime), "1970-01-01", "2100-12-31",
-        ErrorMessage = InvalidReleaseDate)]
         public DateTime ReleaseDate { get; set; }
 
         public string? ImagePath { get; set; }
-
 
         [MinLength(1, ErrorMessage = GenreRequired)]
         public List<int> SelectedGenreIds { get; set; } = new();
