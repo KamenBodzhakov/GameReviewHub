@@ -80,35 +80,63 @@ The application will start on a local development URL (e.g., https://localhost:x
 5. 📁 Project Structure
 
 ├── GameReviewHub.Web/          # Presentation Layer (MVC)
-│   ├── Controllers/            # MVC Controllers
+│   ├── Areas/
+│   │   └── Admin/              # Administrator Area
+│   │       ├── Controllers/
+│   │       │   ├── DashboardController
+│   │       │   └── GamesController
+│   │       └── Views/
+│   │           ├── Dashboard/
+│   │           └── Games/
+│   │
+│   ├── Controllers/
 │   │   ├── ReviewsController
-│   │   └── ReviewCommentsController
+│   │   ├── ReviewCommentsController
+│   │   └── GamesController
 │   │
-│   ├── Views/                  # Razor Views
-│   │   ├── Reviews
-│   │   └── ReviewComments
+│   ├── Views/
+│   │   ├── Games/
+│   │   ├── Reviews/
+│   │   ├── ReviewComments/
+│   │   └── Shared/
+│   │       ├── _GameCardsPartial.cshtml
+│   │       └── _GameFormPartial.cshtml
 │   │
-│   ├── wwwroot/                # Static files (CSS, JS, images)
-│   ├── ViewModels/             # ViewModels for UI separation
-│   │   ├── Review
-│   │   └── ReviewComment
+│   ├── ViewModels/
+│   │   ├── Game/
+│   │   ├── Game/Admin/
+│   │   ├── Review/
+│   │   └── ReviewComment/
 │   │
-│   └── Program.cs              # Application entry point
+│   └── Program.cs
 │
 ├── GameReviewHub.Services/     # Business Logic Layer
 │   ├── Core/
+│   │   ├── GameService
 │   │   ├── ReviewService
+│   │   ├── ReviewVoteService
 │   │   └── ReviewCommentService
 │   │
 │   └── Interfaces/
+│       ├── IGameService
 │       ├── IReviewService
+│       ├── IReviewVoteService
 │       └── IReviewCommentService
 │
 ├── GameReviewHub.Data/
 │   ├── Models/
+│   │   ├── Game
+│   │   ├── Genre
+│   │   ├── GameGenre
 │   │   ├── Review
 │   │   ├── ReviewVote
 │   │   └── ReviewComment
+│
+├── GameReviewHub.Tests/        # Unit Tests
+│   ├── GameServiceTests
+│   ├── ReviewServiceTests
+│   ├── ReviewVoteServiceTests
+│   └── ReviewCommentServiceTests
 
 
 
@@ -150,6 +178,20 @@ Features include:
 - Viewing comments directly beneath each review
 - Displaying comment author and creation date
 
+Game Administration
+
+Administrators can:
+
+- Create new games with:
+  - Title, Developer, Description
+  - Release date validation
+  - Image path (local project assets)
+  - Multiple genre selection
+- Edit existing games
+- Delete games safely (including related data)
+
+Genres are predefined and seeded in the database, ensuring consistency and preventing invalid data entry.
+
 Authentication & Authorization (Extended)
 
 The application uses the built-in ASP.NET Core Identity system for managing users and roles.
@@ -166,6 +208,17 @@ Ensures required roles always exist in the database
 
 👑 Administrator Setup
 An administrator user is assigned automatically during application startup:
+
+🛠️ Administrator Panel
+
+An Administrator area is implemented using ASP.NET Core Areas.
+
+Features include:
+
+- Access restricted to users with the **Administrator** role
+- Manage games (Create, Edit, Delete)
+- Reusable UI components using partial views
+- Clean separation between public and admin functionality
 
 ✅ Validation
 
@@ -186,6 +239,16 @@ Entity Framework Core (Code-First approach)
 Separation between Entities and ViewModels
 
 Fully asynchronous operations for database access
+
+Reusable partial views for shared UI components
+
+Area-based architecture for role-specific functionality (Admin area)
+
+Centralized validation using ValidationConstants
+
+Centralized error messages using ErrorMessages
+
+Consistent validation across ViewModels and services
 
 
 7. 💻 Usage
@@ -238,8 +301,33 @@ Logging – Log level configuration
 
 ⚠️ No sensitive data (passwords or API keys) are stored in the repository.
 
+10. 🧪 Testing
 
-10. 📬 Contact
+The project includes unit tests covering the business logic layer.
+
+🧪 Testing Approach
+
+- Framework: NUnit
+- Mocking: Moq (used where appropriate)
+- Database: In-Memory Database (EF Core)
+
+📊 Coverage
+
+- Tests focus on service layer logic:
+  - GameService
+  - ReviewService
+  - ReviewVoteService
+  - ReviewCommentService
+
+- Covers:
+  - Success scenarios
+  - Failure/edge cases
+  - Data validation logic
+  - Entity-to-ViewModel mapping
+
+The test suite is designed to achieve the required minimum coverage of the business logic.
+
+11. 📬 Contact
 
 Kamen Bodzhakov
 GitHub: https://github.com/KamenBodzhakov
