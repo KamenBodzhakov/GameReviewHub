@@ -2,6 +2,7 @@
 using GameReviewHub.Data.Models;
 using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
+using GameReviewHub.ViewModels.Game.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewHub.Services.Core
@@ -87,10 +88,7 @@ namespace GameReviewHub.Services.Core
                 .Where(g => selectedGenreIds.Contains(g.Id))
                 .ToListAsync();
 
-            if (selectedGenres.Count != selectedGenreIds.Count)
-            {
-                return false;
-            }
+            if (selectedGenres.Count != selectedGenreIds.Count) return false;
 
             Game game = new Game
             {
@@ -126,6 +124,109 @@ namespace GameReviewHub.Services.Core
                     Name = g.Name
                 })
                 .ToListAsync();
+        }
+
+        public async Task<EditGameViewModel?> BuildEditGameViewModelAsync(int gameId)
+        {
+            EditGameViewModel? viewModel = await dbContext.Games
+                .AsNoTracking()
+                .Where(g => g.Id == gameId)
+                .Select(g => new EditGameViewModel
+                {
+                    GameId = g.Id,
+                    Input = new CreateGameInputModel
+                    {
+                        Title = g.Title,
+                        Developer = g.Developer,
+                        Description = g.Description,
+                        ReleaseDate = g.ReleaseDate,
+                        ImagePath = g.ImagePath,
+                        SelectedGenreIds = g.GameGenres
+                            .Select(gg => gg.GenreId)
+                            .ToList()
+                    }
+                })
+                .FirstOrDefaultAsync();
+
+            if (viewModel == null) return null;
+
+            viewModel.AvailableGenres = await GetAllGenreOptionsAsync();
+
+            return viewModel;
+        }
+
+        public async Task<bool> ConfirmEditGameAsync(int gameId, CreateGameInputModel input)
+        {
+            Game? game = await dbContext.Games
+                .Include(g => g.GameGenres)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+            if (game == null) return false;
+
+            List<int> selectedGenreIds = input.SelectedGenreIds
+                .Distinct()
+                .ToList();
+
+            List<Genre> selectedGenres = await dbContext.Genres
+                .Where(g => selectedGenreIds.Contains(g.Id))
+                .ToListAsync();
+
+            if (selectedGenres.Count != selectedGenreIds.Count) return false;
+
+            game.Title = input.Title;
+            game.Developer = input.Developer;
+            game.Description = input.Description;
+            game.ReleaseDate = input.ReleaseDate;
+            game.ImagePath = input.ImagePath;
+
+            game.GameGenres.Clear();
+
+            foreach (Genre genre in selectedGenres)
+            {
+                game.GameGenres.Add(new GameGenre
+                {
+                    GenreId = genre.Id
+                });
+            }
+
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<DeleteGameViewModel?> BuildDeleteGameViewModelAsync(int gameId)
+        {
+            DeleteGameViewModel? viewModel = await dbContext.Games
+                .AsNoTracking()
+                .Where(g => g.Id == gameId)
+                .Select(g => new DeleteGameViewModel
+                {
+                    GameId = g.Id,
+                    Title = g.Title,
+                    Developer = g.Developer,
+                    ImagePath = g.ImagePath
+                })
+                .FirstOrDefaultAsync();
+
+            return viewModel;
+        }
+
+        public async Task<bool> DeleteGameAsync(int gameId)
+        {
+            Game? game = await dbContext.Games
+                .Include(g => g.GameGenres)
+                .Include(g => g.Reviews)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+            if (game == null) return false;
+
+            dbContext.GamesGenres.RemoveRange(game.GameGenres);
+            dbContext.Reviews.RemoveRange(game.Reviews);
+            dbContext.Games.Remove(game);
+
+            await dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

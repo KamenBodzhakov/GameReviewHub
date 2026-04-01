@@ -14,5 +14,6 @@
         public const string InvalidGenreSelection = "Invalid genre selection.";
         public const string GenreRequired = "Select at least one genre.";
         public const string InvalidReleaseDate = "Enter a valid release date.";
+        public const string GameEditingFailed = "Unable to edit game.";
     }
 }

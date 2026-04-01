@@ -1,5 +1,6 @@
 ﻿using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
+using GameReviewHub.ViewModels.Game.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ namespace GameReviewHub.Areas.Admin.Controllers
             return View(games);
         }
 
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> CreateGame()
         {
             CreateGameViewModel viewModel = await gameService.BuildCreateGameViewModelAsync();
 
@@ -33,7 +34,7 @@ namespace GameReviewHub.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateGameViewModel model)
+        public async Task<IActionResult> CreateGame(CreateGameViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -47,6 +48,57 @@ namespace GameReviewHub.Areas.Admin.Controllers
                 ModelState.AddModelError(string.Empty, GameCreationFailed);
                 model.AvailableGenres = await gameService.GetAllGenreOptionsAsync(); return View(model);
             }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> EditGame(int id)
+        {
+            EditGameViewModel? viewModel = await gameService.BuildEditGameViewModelAsync(id);
+
+            if (viewModel == null) return NotFound();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditGame(EditGameViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.AvailableGenres = await gameService.GetAllGenreOptionsAsync();
+                return View(model);
+            }
+
+            bool success = await gameService.ConfirmEditGameAsync(model.GameId, model.Input);
+
+            if (!success)
+            {
+                ModelState.AddModelError(string.Empty, GameEditingFailed);
+                model.AvailableGenres = await gameService.GetAllGenreOptionsAsync();
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteGame(int id)
+        {
+            DeleteGameViewModel? viewModel = await gameService.BuildDeleteGameViewModelAsync(id);
+
+            if (viewModel == null) return NotFound();
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteGame(DeleteGameViewModel model)
+        {
+            bool success = await gameService.DeleteGameAsync(model.GameId);
+
+            if (!success) return NotFound();
 
             return RedirectToAction(nameof(Index));
         }

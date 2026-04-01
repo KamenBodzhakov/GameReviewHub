@@ -1,4 +1,4 @@
-﻿namespace GameReviewHub.ViewModels.Game
+﻿namespace GameReviewHub.ViewModels.Game.Admin
 {
     public class CreateGameViewModel
     {

@@ -2,7 +2,7 @@
 using static GameReviewHub.Common.ErrorMessages;
 using static GameReviewHub.Common.ValidationConstants.Game;
 
-namespace GameReviewHub.ViewModels.Game
+namespace GameReviewHub.ViewModels.Game.Admin
 {
     public class CreateGameInputModel
     {

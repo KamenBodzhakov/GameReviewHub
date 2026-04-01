@@ -1,0 +1,30 @@
+﻿@using GameReviewHub.ViewModels.Game.Admin
+@model EditGameViewModel
+
+@{
+    ViewData["Title"] = "Edit Game";
+}
+
+<h2 class="mb-4">Edit Game</h2>
+
+<form asp-area="Admin" asp-controller="Games" asp-action="EditGame" method="post">
+
+    <input type="hidden" asp-for="GameId" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <partial name="_GameFormPartial"
+             model='new CreateGameViewModel
+             {
+                 Input = Model.Input,
+                 AvailableGenres = Model.AvailableGenres
+             }' />
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-area="Admin" asp-controller="Games" asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

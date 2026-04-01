@@ -1,4 +1,5 @@
 ﻿using GameReviewHub.ViewModels.Game;
+using GameReviewHub.ViewModels.Game.Admin;
 
 namespace GameReviewHub.Services.Core.Interfaces
 {
@@ -9,5 +10,9 @@ namespace GameReviewHub.Services.Core.Interfaces
         Task<CreateGameViewModel> BuildCreateGameViewModelAsync();
         Task<bool> CreateGameAsync(CreateGameInputModel input);
         Task<IEnumerable<GameGenreOptionViewModel>> GetAllGenreOptionsAsync();
+        Task<EditGameViewModel?> BuildEditGameViewModelAsync(int gameId);
+        Task<bool> ConfirmEditGameAsync(int gameId, CreateGameInputModel input);
+        Task<DeleteGameViewModel?> BuildDeleteGameViewModelAsync(int gameId);
+        Task<bool> DeleteGameAsync(int gameId);
     }
 }

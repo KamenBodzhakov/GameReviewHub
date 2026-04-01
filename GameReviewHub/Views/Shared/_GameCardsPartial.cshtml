@@ -45,14 +45,16 @@ else
                         <p class="card-text mt-2">@game.ShortDescription</p>
 
                         <div class="mt-auto d-flex gap-2 pt-3">
-                            <a asp-controller="Games"
+                            <a asp-area=""
+                               asp-controller="Games"
                                asp-action="Details"
                                asp-route-id="@game.Id"
                                class="btn btn-primary flex-fill fw-semibold">
                                 Details
                             </a>
 
-                            <a asp-controller="Reviews"
+                            <a asp-area=""
+                               asp-controller="Reviews"
                                asp-action="ByGame"
                                asp-route-gameId="@game.Id"
                                class="btn btn-warning flex-fill fw-semibold">
@@ -65,7 +67,7 @@ else
                             <div class="d-flex gap-2 pt-2">
                                 <a asp-area="Admin"
                                    asp-controller="Games"
-                                   asp-action="Edit"
+                                   asp-action="EditGame"
                                    asp-route-id="@game.Id"
                                    class="btn btn-outline-primary flex-fill">
                                     Edit
@@ -73,7 +75,7 @@ else
 
                                 <a asp-area="Admin"
                                    asp-controller="Games"
-                                   asp-action="Delete"
+                                   asp-action="DeleteGame"
                                    asp-route-id="@game.Id"
                                    class="btn btn-outline-danger flex-fill">
                                     Delete
