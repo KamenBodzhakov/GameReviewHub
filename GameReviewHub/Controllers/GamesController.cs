@@ -27,6 +27,7 @@ namespace GameReviewHub.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+
             if (id <= 0) return NotFound();  // Slugs could be added as a future improvement. Example: Games/Hades/Details
 
             GameDetailsViewModel? viewModel = await gameService.GetGameDetailsAsync(id);
