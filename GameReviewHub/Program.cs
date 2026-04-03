@@ -41,8 +41,13 @@ namespace GameReviewHub
 
             var app = builder.Build();
 
+            string? adminEmail = builder.Configuration["AdminEmail"];
             IdentitySeeder.SeedRoles(app);
-            IdentitySeeder.AssignAdmin(app, "everdr3am@gmail.com");
+
+            if (!string.IsNullOrEmpty(adminEmail))
+            {
+                IdentitySeeder.AssignAdmin(app, adminEmail);
+            }
 
             if (app.Environment.IsDevelopment())
             {
