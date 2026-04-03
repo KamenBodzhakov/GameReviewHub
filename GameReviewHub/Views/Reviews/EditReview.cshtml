@@ -11,6 +11,7 @@
       asp-route-gameId="@Model.GameId"
       asp-route-reviewId="@Model.ReviewId"
       method="post">
+    @Html.AntiForgeryToken()
 
     <div asp-validation-summary="All" class="text-danger mb-3"></div>
 

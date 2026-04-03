@@ -18,29 +18,35 @@ namespace GameReviewHub.Services.Core
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync()
+        public async Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync(string? searchTerm = null)
         {
-            return await dbContext.Games
-            .AsNoTracking()
-            .OrderBy(g => g.Title)
-            .ThenBy(g => g.ReleaseDate)
-            .Select(g => new GameListItemViewModel
+            IQueryable<Game> query = dbContext.Games.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                Id = g.Id,
-                Title = g.Title,
-                Developer = g.Developer,
-                ReleaseDate = g.ReleaseDate,
-                ShortDescription = g.Description.Length > 200
-                    ? g.Description.Substring(0, GameCardMaxDescriptionLength) + "..."
-                    : g.Description,
-                AverageRating = g.Reviews.Any()
-                    ? g.Reviews.Average(r => r.Rating)
-                    : 0.0
-                    ,
-                ImagePath = g.ImagePath
-            })
-            .ToListAsync();
+                query = query.Where(g => g.Title.Contains(searchTerm));
+            }
+
+            return await query
+                .OrderBy(g => g.Title)
+                .ThenBy(g => g.ReleaseDate)
+                .Select(g => new GameListItemViewModel
+                {
+                    Id = g.Id,
+                    Title = g.Title,
+                    Developer = g.Developer,
+                    ReleaseDate = g.ReleaseDate,
+                    ShortDescription = g.Description.Length > 200
+                        ? g.Description.Substring(0, GameCardMaxDescriptionLength) + "..."
+                        : g.Description,
+                    AverageRating = g.Reviews.Any()
+                        ? g.Reviews.Average(r => r.Rating)
+                        : 0.0,
+                    ImagePath = g.ImagePath
+                })
+                .ToListAsync();
         }
+
 
         public async Task<GameDetailsViewModel?> GetGameDetailsAsync(int gameId)
         {

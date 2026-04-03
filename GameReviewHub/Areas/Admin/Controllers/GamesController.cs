@@ -25,6 +25,7 @@ namespace GameReviewHub.Areas.Admin.Controllers
             return View(games);
         }
 
+        [HttpGet]
         public async Task<IActionResult> CreateGame()
         {
             CreateGameViewModel viewModel = await gameService.BuildCreateGameViewModelAsync();
@@ -52,8 +53,11 @@ namespace GameReviewHub.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         public async Task<IActionResult> EditGame(int id)
         {
+            if (id <= 0) return BadRequest();
+
             EditGameViewModel? viewModel = await gameService.BuildEditGameViewModelAsync(id);
 
             if (viewModel == null) return NotFound();
@@ -65,6 +69,8 @@ namespace GameReviewHub.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditGame(EditGameViewModel model)
         {
+            if (model.GameId <= 0) return BadRequest();
+
             if (!ModelState.IsValid)
             {
                 model.AvailableGenres = await gameService.GetAllGenreOptionsAsync();
@@ -83,8 +89,11 @@ namespace GameReviewHub.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         public async Task<IActionResult> DeleteGame(int id)
         {
+            if (id <= 0) return BadRequest();
+
             DeleteGameViewModel? viewModel = await gameService.BuildDeleteGameViewModelAsync(id);
 
             if (viewModel == null) return NotFound();
@@ -96,6 +105,8 @@ namespace GameReviewHub.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteGame(DeleteGameViewModel model)
         {
+            if (model.GameId <= 0) return BadRequest();
+
             bool success = await gameService.DeleteGameAsync(model.GameId);
 
             if (!success) return NotFound();

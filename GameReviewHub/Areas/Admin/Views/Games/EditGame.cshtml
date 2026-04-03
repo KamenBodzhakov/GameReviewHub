@@ -7,7 +7,10 @@
 
 <h2 class="mb-4">Edit Game</h2>
 
-<form asp-area="Admin" asp-controller="Games" asp-action="EditGame" method="post">
+<form asp-area="Admin"
+      asp-controller="Games"
+      asp-action="EditGame" method="post">
+    @Html.AntiForgeryToken()
 
     <input type="hidden" asp-for="GameId" />
 

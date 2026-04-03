@@ -8,7 +8,10 @@
 
 <h2 class="mb-4">Create Game</h2>
 
-<form asp-area="Admin" asp-controller="Games" asp-action="CreateGame" method="post">
+<form asp-area="Admin"
+      asp-controller="Games" 
+      asp-action="CreateGame" method="post">
+    @Html.AntiForgeryToken()
 
     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 

@@ -17,7 +17,7 @@ namespace GameReviewHub.Services.Core
 
         public async Task<bool> AddCommentAsync(int reviewId, CreateReviewCommentInputModel input, string userId)
         {
-            bool reviewExists = dbContext.Reviews.Any(r => r.Id == reviewId);
+            bool reviewExists = await dbContext.Reviews.AnyAsync(r => r.Id == reviewId);
             if (!reviewExists)
             {
                 return false;

@@ -10,6 +10,7 @@
 <form asp-action="CreateReview"
       asp-route-gameId="@Model.GameId"
       method="post">
+    @Html.AntiForgeryToken()
 
     <div class="mb-3">
         <label asp-for="Input.Title" class="form-label"></label>

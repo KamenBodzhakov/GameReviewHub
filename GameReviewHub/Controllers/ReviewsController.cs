@@ -84,25 +84,15 @@ namespace GameReviewHub.Controllers
         {
             if (GameIdOrReviewIdIsInvalid(gameId, reviewId)) return BadRequest();
 
-            DeleteReviewViewModel? viewModel = await reviewService.BuildDeleteReviewViewModelAsync(gameId, reviewId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            DeleteReviewViewModel? viewModel =
+                await reviewService.BuildDeleteReviewViewModelAsync(gameId, reviewId, userId);
+
             if (viewModel == null) return NotFound();
 
             return View(viewModel);
         }
-
-
-        //[HttpPost]
-        //[ActionName(nameof(DeleteReview))]
-        //public IActionResult DeleteReviewPost(int gameId, int reviewId) 
-        //{
-        //    if (gameId <= 0 || reviewId <= 0) return BadRequest();
-
-        //    bool isDeleted = reviewService.DeleteReview(gameId, reviewId);
-        //    if (!isDeleted) return NotFound();
-
-        //    return RedirectToAction(nameof(ByGame), new { gameId });
-        //}
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -111,9 +101,14 @@ namespace GameReviewHub.Controllers
             if (viewModel.GameId <= 0 || viewModel.ReviewId <= 0)
                 return BadRequest();
 
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
             try
             {
-                bool isDeleted = await reviewService.DeleteReviewAsync(viewModel.GameId, viewModel.ReviewId);
+                bool isDeleted = await reviewService.DeleteReviewAsync(
+                viewModel.GameId,
+                viewModel.ReviewId,
+                userId);
 
                 if (!isDeleted)
                 {
@@ -136,7 +131,11 @@ namespace GameReviewHub.Controllers
         {
             if (GameIdOrReviewIdIsInvalid(gameId, reviewId)) return BadRequest();
 
-            EditReviewViewModel? editReviewViewModel = await reviewService.BuildEditReviewViewModelAsync(gameId, reviewId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            EditReviewViewModel? editReviewViewModel =
+                await reviewService.BuildEditReviewViewModelAsync(gameId, reviewId, userId);
+
             if (editReviewViewModel == null) return NotFound();
 
             return View(editReviewViewModel);
@@ -149,7 +148,11 @@ namespace GameReviewHub.Controllers
         {
             if (GameIdOrReviewIdIsInvalid(gameId, reviewId)) return BadRequest();
 
-            EditReviewViewModel? editReviewViewModel = await reviewService.BuildEditReviewViewModelAsync(gameId, reviewId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+            EditReviewViewModel? editReviewViewModel =
+                await reviewService.BuildEditReviewViewModelAsync(gameId, reviewId, userId);
+
             if (editReviewViewModel == null) return NotFound();
 
             if (!ModelState.IsValid)
@@ -160,7 +163,11 @@ namespace GameReviewHub.Controllers
 
             try
             {
-                bool isEditReviewConfirmed = await reviewService.ConfirmEditReviewAsync(gameId, reviewId, model.Input);
+                bool isEditReviewConfirmed = await reviewService.ConfirmEditReviewAsync(
+                    gameId,
+                    reviewId,
+                    model.Input,
+                    userId);
 
                 if (!isEditReviewConfirmed)
                 {

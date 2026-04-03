@@ -77,12 +77,5 @@ namespace GameReviewHub.Controllers
             }
         }
 
-
-        //    if (!isCreated)
-        //    {
-        //        ModelState.AddModelError(string.Empty, "Failed to create comment. Please try again.");
-        //        return View(viewModel);
-        //    }
-        //}
     }
 }

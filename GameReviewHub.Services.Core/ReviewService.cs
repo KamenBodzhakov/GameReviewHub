@@ -53,43 +53,11 @@ namespace GameReviewHub.Services.Core
             return true;
         }
 
-        public async Task<DeleteReviewViewModel?> BuildDeleteReviewViewModelAsync(int gameId, int reviewId)
-        {
-            DeleteReviewViewModel? viewModel = await dbContext.Reviews
-                .AsNoTracking()
-                .Where(r => r.Id == reviewId && r.GameId == gameId)
-                .Select(r => new DeleteReviewViewModel
-                {
-                    ReviewId = r.Id,
-                    GameId = r.GameId,
-                    ReviewTitle = r.Title,
-                    GameTitle = r.Game.Title,
-                    Rating = r.Rating,
-                    CreatedOn = r.CreatedOn
-                })
-                .FirstOrDefaultAsync();
-
-            return viewModel;
-        }
-
-        public async Task<bool> DeleteReviewAsync(int gameId, int reviewId)
-        {
-            Review? review = await dbContext.Reviews
-                .FirstOrDefaultAsync(r => r.Id == reviewId && r.GameId == gameId);
-
-            if (review == null) return false;
-
-            dbContext.Reviews.Remove(review);
-            await dbContext.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<EditReviewViewModel?> BuildEditReviewViewModelAsync(int gameId, int reviewId)
+        public async Task<EditReviewViewModel?> BuildEditReviewViewModelAsync(int gameId, int reviewId, string userId)
         {
             EditReviewViewModel? viewModel = await dbContext.Reviews
                 .AsNoTracking()
-                .Where(r => r.Id == reviewId && r.GameId == gameId)
+                .Where(r => r.Id == reviewId && r.GameId == gameId && r.UserId == userId)
                 .Select(r => new EditReviewViewModel
                 {
                     ReviewId = r.Id,
@@ -107,12 +75,51 @@ namespace GameReviewHub.Services.Core
             return viewModel;
         }
 
-        public async Task<bool> ConfirmEditReviewAsync(int gameId, int reviewId, CreateReviewInputModel input)
+        public async Task<bool> DeleteReviewAsync(int gameId, int reviewId, string userId)
         {
             Review? review = await dbContext.Reviews
                 .FirstOrDefaultAsync(r => r.Id == reviewId && r.GameId == gameId);
 
             if (review == null) return false;
+
+            if (review.UserId != userId)
+            {
+                return false;
+            }
+
+            dbContext.Reviews.Remove(review);
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<DeleteReviewViewModel?> BuildDeleteReviewViewModelAsync(int gameId, int reviewId, string userId)
+        {
+            DeleteReviewViewModel? viewModel = await dbContext.Reviews
+                .AsNoTracking()
+                .Where(r => r.Id == reviewId && r.GameId == gameId && r.UserId == userId)
+                .Select(r => new DeleteReviewViewModel
+                {
+                    ReviewId = r.Id,
+                    GameId = r.GameId,
+                    ReviewTitle = r.Title,
+                    GameTitle = r.Game.Title,
+                    Rating = r.Rating,
+                    CreatedOn = r.CreatedOn
+                })
+                .FirstOrDefaultAsync();
+
+            return viewModel;
+        }
+
+        public async Task<bool> ConfirmEditReviewAsync(int gameId, int reviewId, CreateReviewInputModel input, string userId)
+        {
+            Review? review = await dbContext.Reviews
+                .FirstOrDefaultAsync(r => r.Id == reviewId && r.GameId == gameId);
+
+            if (review == null) return false;
+
+            if (review.UserId != userId) return false;
 
             review.Title = input.Title;
             review.Body = input.Body;

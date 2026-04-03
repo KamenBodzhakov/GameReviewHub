@@ -25,7 +25,10 @@
     </div>
 </div>
 
-<form asp-area="Admin" asp-controller="Games" asp-action="DeleteGame" method="post">
+<form asp-area="Admin"
+      asp-controller="Games"
+      asp-action="DeleteGame" method="post">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="GameId" />
 
     <div class="d-flex gap-2">
