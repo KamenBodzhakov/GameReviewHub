@@ -1,6 +1,4 @@
-﻿
-using GameReviewHub.Services.Core;
-using GameReviewHub.Services.Core.Interfaces;
+﻿using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,21 +15,27 @@ namespace GameReviewHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchTerm, int? genreId)
         {
-            IEnumerable<GameListItemViewModel> allGames = await gameService.ShowAllGamesAsync();
+            IEnumerable<GameListItemViewModel> games =
+                await gameService.ShowAllGamesAsync(searchTerm, genreId);
+            searchTerm = searchTerm?.Trim();
 
-            return View(allGames);
+            ViewData["SearchQuery"] = searchTerm;
+            ViewData["GenreId"] = genreId;
+            ViewData["Genres"] = await gameService.GetAllGenreOptionsAsync();
+
+            return View(games);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
 
-            if (id <= 0) return NotFound();  // Slugs could be added as a future improvement. Example: Games/Hades/Details
+            if (id <= 0) return BadRequest();  // Slugs could be added as a future improvement. Example: Games/Hades/Details
 
             GameDetailsViewModel? viewModel = await gameService.GetGameDetailsAsync(id);
-            if (viewModel == null) return BadRequest();
+            if (viewModel == null) return NotFound();
 
             return View(viewModel);
         }

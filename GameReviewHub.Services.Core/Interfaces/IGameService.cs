@@ -5,7 +5,7 @@ namespace GameReviewHub.Services.Core.Interfaces
 {
     public interface IGameService
     {
-        Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync(string? searchTerm = null);
+        Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync(string? searchTerm = null, int? genreId = null);
         Task<GameDetailsViewModel?> GetGameDetailsAsync(int gameId);
         Task<CreateGameViewModel> BuildCreateGameViewModelAsync();
         Task<bool> CreateGameAsync(CreateGameInputModel input);

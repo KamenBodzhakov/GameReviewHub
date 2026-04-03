@@ -3,8 +3,45 @@
 
 @{
     ViewData["Title"] = "All Games";
+    var genres = (IEnumerable<GameGenreOptionViewModel>)ViewData["Genres"]!;
 }
 
 <h2 class="mb-4">@ViewData["Title"]</h2>
+
+<form method="get" asp-action="Index" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-6">
+            <input type="text"
+                   name="searchTerm"
+                   value="@ViewData["SearchQuery"]"
+                   class="form-control"
+                   placeholder="Search games..." />
+        </div>
+
+        <div class="col-md-4">
+            <select name="genreId" class="form-select">
+                <option value="">All genres</option>
+
+                @foreach (var genre in genres)
+                {
+                    if (ViewData["GenreId"]?.ToString() == genre.Id.ToString())
+                    {
+                        <option value="@genre.Id" selected>@genre.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@genre.Id">@genre.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">
+                Show Results
+            </button>
+        </div>
+    </div>
+</form>
 
 <partial name="_GameCardsPartial" model="Model" />

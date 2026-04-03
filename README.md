@@ -2,7 +2,6 @@
 🚀 GameReviewHub
 
 GameReviewHub is a web application developed as part of the ASP.NET Fundamentals course. It allows users to browse games and after authentication to create, edit, and delete reviews.
-
 Users can also interact with reviews by **upvoting them and adding comments**, enabling discussion around each review.
 
 📋 Table of Contents
@@ -171,12 +170,13 @@ Each review displays the current **vote count**, and users can vote once per rev
 Review Comments
 
 Authenticated users can add **comments under reviews**, enabling discussion and feedback between users.
-
-Features include:
-
 - Creating comments under a review
 - Viewing comments directly beneath each review
 - Displaying comment author and creation date
+
+Search games by title
+
+Filter games by genre
 
 Game Administration
 
@@ -226,6 +226,18 @@ Server-side validation using Data Annotations
 
 Client-side validation with unobtrusive validation scripts
 
+🔐 Security & Reliability
+
+Custom error pages for 400 Bad Request, 404 Not Found, and 500 Internal Server Error
+
+CSRF protection using Anti-Forgery tokens on all POST forms
+
+XSS-safe rendering of user-generated content through Razor HTML encoding
+
+Authorization and ownership checks so users can edit and delete only their own reviews
+
+Input validation and defensive handling of invalid IDs and missing resources
+
 ⚠️ Error Handling
 
 🏗️ Architecture Highlights
@@ -256,6 +268,10 @@ Consistent validation across ViewModels and services
 Launch the application.
 
 Browse available games from the Games page.
+
+Use the search field to find games by title.
+
+Use the genre filter to narrow the list of displayed games.
 
 Click View Reviews to see reviews for a specific game.
 

@@ -18,14 +18,21 @@ namespace GameReviewHub.Services.Core
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync(string? searchTerm = null)
+        public async Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync(string? searchTerm = null, int? genreId = null)
         {
             IQueryable<Game> query = dbContext.Games.AsNoTracking();
-
+            searchTerm = searchTerm?.Trim();
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
                 query = query.Where(g => g.Title.Contains(searchTerm));
             }
+
+            if (genreId.HasValue)
+            {
+                query = query.Where(g => g.GameGenres.Any(gg => gg.GenreId == genreId.Value));
+            }
+
+            query = query.OrderBy(g => g.Title);
 
             return await query
                 .OrderBy(g => g.Title)
@@ -45,6 +52,7 @@ namespace GameReviewHub.Services.Core
                     ImagePath = g.ImagePath
                 })
                 .ToListAsync();
+
         }
 
 
