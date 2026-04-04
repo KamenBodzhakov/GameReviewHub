@@ -1,4 +1,5 @@
-﻿using GameReviewHub.Services.Core.Interfaces;
+﻿using GameReviewHub.Services.Core;
+using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
 using GameReviewHub.ViewModels.Game.Admin;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,20 @@ namespace GameReviewHub.Areas.Admin.Controllers
             this.gameService = gameService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(AllGamesQueryModel queryModel)
         {
-            IEnumerable<GameListItemViewModel> games = await gameService.ShowAllGamesAsync();
+            if (queryModel.CurrentPage < 1)
+            {
+                queryModel.CurrentPage = 1;
+            }
 
-            return View(games);
+            AllGamesPagedServiceModel pagedResult = await gameService
+                .GetPagedGamesAsync(queryModel.SearchTerm, null, queryModel.CurrentPage, AllGamesQueryModel.GamesPerPage);
+
+            queryModel.Games = pagedResult.Games;
+            queryModel.TotalGamesCount = pagedResult.TotalGamesCount;
+
+            return View(queryModel);
         }
 
         [HttpGet]
