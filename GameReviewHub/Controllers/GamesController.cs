@@ -1,4 +1,5 @@
-﻿using GameReviewHub.Services.Core.Interfaces;
+﻿using GameReviewHub.Services.Core;
+using GameReviewHub.Services.Core.Interfaces;
 using GameReviewHub.ViewModels.Game;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,17 +16,24 @@ namespace GameReviewHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string? searchTerm, int? genreId)
+        public async Task<IActionResult> Index(AllGamesQueryModel queryModel)
         {
-            IEnumerable<GameListItemViewModel> games =
-                await gameService.ShowAllGamesAsync(searchTerm, genreId);
-            searchTerm = searchTerm?.Trim();
+            if (queryModel.CurrentPage < 1)
+            {
+                queryModel.CurrentPage = 1;
+            }
 
-            ViewData["SearchQuery"] = searchTerm;
-            ViewData["GenreId"] = genreId;
+            AllGamesPagedServiceModel pagedResult = await gameService
+                .GetPagedGamesAsync(queryModel.SearchTerm,queryModel.GenreId,queryModel.CurrentPage,AllGamesQueryModel.GamesPerPage);
+
+            queryModel.Games = pagedResult.Games;
+            queryModel.TotalGamesCount = pagedResult.TotalGamesCount;
+
             ViewData["Genres"] = await gameService.GetAllGenreOptionsAsync();
+            ViewData["SearchQuery"] = queryModel.SearchTerm;
+            ViewData["GenreId"] = queryModel.GenreId;
 
-            return View(games);
+            return View(queryModel);
         }
 
         [HttpGet]

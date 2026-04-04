@@ -20,23 +20,35 @@ namespace GameReviewHub.Services.Core
 
         public async Task<IEnumerable<GameListItemViewModel>> ShowAllGamesAsync(string? searchTerm = null, int? genreId = null)
         {
-            IQueryable<Game> query = dbContext.Games.AsNoTracking();
-            searchTerm = searchTerm?.Trim();
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                query = query.Where(g => g.Title.Contains(searchTerm));
-            }
-
-            if (genreId.HasValue)
-            {
-                query = query.Where(g => g.GameGenres.Any(gg => gg.GenreId == genreId.Value));
-            }
-
-            query = query.OrderBy(g => g.Title);
+            IQueryable<Game> query = BuildGamesQuery(searchTerm, genreId);
 
             return await query
-                .OrderBy(g => g.Title)
-                .ThenBy(g => g.ReleaseDate)
+                .Select(g => new GameListItemViewModel
+                {
+                    Id = g.Id,
+                    Title = g.Title,
+                    Developer = g.Developer,
+                    ReleaseDate = g.ReleaseDate,
+                    ShortDescription = g.Description.Length > 200
+                        ? g.Description.Substring(0, GameCardMaxDescriptionLength) + "..."
+                        : g.Description,
+                    AverageRating = g.Reviews.Any()
+                        ? g.Reviews.Average(r => r.Rating)
+                        : 0.0,
+                    ImagePath = g.ImagePath
+                })
+                .ToListAsync();
+        }
+
+        public async Task<AllGamesPagedServiceModel> GetPagedGamesAsync(string? searchTerm, int? genreId, int currentPage, int gamesPerPage)
+        {
+            IQueryable<Game> query = BuildGamesQuery(searchTerm, genreId);
+
+            int totalGamesCount = await query.CountAsync();
+
+            IEnumerable<GameListItemViewModel> games = await query
+                .Skip((currentPage - 1) * gamesPerPage)
+                .Take(gamesPerPage)
                 .Select(g => new GameListItemViewModel
                 {
                     Id = g.Id,
@@ -53,6 +65,11 @@ namespace GameReviewHub.Services.Core
                 })
                 .ToListAsync();
 
+            return new AllGamesPagedServiceModel
+            {
+                TotalGamesCount = totalGamesCount,
+                Games = games
+            };
         }
 
 
@@ -77,6 +94,7 @@ namespace GameReviewHub.Services.Core
                 })
                 .FirstOrDefaultAsync();
         }
+
 
         public async Task<CreateGameViewModel> BuildCreateGameViewModelAsync()
         {
@@ -241,6 +259,28 @@ namespace GameReviewHub.Services.Core
             await dbContext.SaveChangesAsync();
 
             return true;
+        }
+
+
+        private IQueryable<Game> BuildGamesQuery(string? searchTerm, int? genreId)
+        {
+            IQueryable<Game> query = dbContext.Games.AsNoTracking();
+
+            searchTerm = searchTerm?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(g => g.Title.Contains(searchTerm));
+            }
+
+            if (genreId.HasValue)
+            {
+                query = query.Where(g => g.GameGenres.Any(gg => gg.GenreId == genreId.Value));
+            }
+
+            return query
+                .OrderBy(g => g.Title)
+                .ThenBy(g => g.ReleaseDate);
         }
     }
 }

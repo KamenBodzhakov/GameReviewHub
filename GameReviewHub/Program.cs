@@ -41,7 +41,7 @@ namespace GameReviewHub
 
             var app = builder.Build();
 
-            string? adminEmail = builder.Configuration["AdminEmail"];
+            string? adminEmail = builder.Configuration["AdminSettings:Email"];
             IdentitySeeder.SeedRoles(app);
 
             if (!string.IsNullOrEmpty(adminEmail))

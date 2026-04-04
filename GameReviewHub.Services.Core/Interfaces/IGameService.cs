@@ -14,5 +14,6 @@ namespace GameReviewHub.Services.Core.Interfaces
         Task<bool> ConfirmEditGameAsync(int gameId, CreateGameInputModel input);
         Task<DeleteGameViewModel?> BuildDeleteGameViewModelAsync(int gameId);
         Task<bool> DeleteGameAsync(int gameId);
+        Task<AllGamesPagedServiceModel> GetPagedGamesAsync(string? searchTerm, int? genreId, int currentPage, int gamesPerPage);
     }
 }
