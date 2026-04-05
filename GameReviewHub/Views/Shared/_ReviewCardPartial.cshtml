@@ -40,7 +40,7 @@
             @Model.Body
         </p>
 
-        <div class="mt-2 d-flex justify-content-between align-items-center">
+        <div class="mt-2 d-flex justify-content-between align-items-end">
             <form asp-controller="ReviewVotes"
                   asp-action="Vote"
                   method="post"
@@ -56,16 +56,39 @@
                 </button>
             </form>
 
-            @if (User.Identity?.IsAuthenticated == true)
-            {
-                <a class="btn btn-sm btn-outline-secondary"
-                   asp-controller="ReviewComments"
-                   asp-action="CreateReviewComment"
-                   asp-route-reviewId="@Model.ReviewId"
-                   asp-route-gameId="@Model.GameId">
-                    Add Comment
-                </a>
-            }
+            <div class="d-flex flex-column align-items-end gap-2">
+                @if (User.Identity?.IsAuthenticated == true && currentUserId == Model.AuthorUserId)
+                {
+                    <div class="d-flex gap-2">
+                        <a class="btn btn btn-outline-primary"
+                           asp-controller="Reviews"
+                           asp-action="EditReview"
+                           asp-route-gameId="@Model.GameId"
+                           asp-route-reviewId="@Model.ReviewId">
+                            Edit
+                        </a>
+
+                        <a class="btn btn btn-outline-danger"
+                           asp-controller="Reviews"
+                           asp-action="DeleteReview"
+                           asp-route-gameId="@Model.GameId"
+                           asp-route-reviewId="@Model.ReviewId">
+                            Delete
+                        </a>
+                    </div>
+                }
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a class="btn btn btn-outline-secondary"
+                       asp-controller="ReviewComments"
+                       asp-action="CreateReviewComment"
+                       asp-route-reviewId="@Model.ReviewId"
+                       asp-route-gameId="@Model.GameId">
+                        Add Comment
+                    </a>
+                }
+            </div>
         </div>
 
         @if (Model.Comments.Any())
@@ -88,27 +111,5 @@
                 }
             </div>
         }
-
-        <div class="mt-auto text-end pt-3">
-            @if (User.Identity?.IsAuthenticated == true && currentUserId == Model.AuthorUserId)
-            {
-                <a class="btn btn-outline-primary me-2"
-                   asp-controller="Reviews"
-                   asp-action="EditReview"
-                   asp-route-gameId="@Model.GameId"
-                   asp-route-reviewId="@Model.ReviewId">
-                    Edit
-                </a>
-
-                <a class="btn btn-outline-danger"
-                   asp-controller="Reviews"
-                   asp-action="DeleteReview"
-                   asp-route-gameId="@Model.GameId"
-                   asp-route-reviewId="@Model.ReviewId">
-                    Delete
-                </a>
-            }
-        </div>
-
     </div>
 </div>

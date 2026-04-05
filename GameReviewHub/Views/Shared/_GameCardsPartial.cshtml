@@ -30,8 +30,11 @@ else
 
                             @if (game.AverageRating > 0)
                             {
-                                <span class="badge bg-success fs-6">
-                                    ⭐ @game.AverageRating.ToString("0.0") / 10
+                                <span class="badge bg-success fs-6 d-inline-flex align-items-center gap-1">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="gold" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.787 1.4 8.168L12 18.897l-7.334 3.869 1.4-8.168L.132 9.211l8.2-1.193z" />
+                                    </svg>
+                                    @game.AverageRating.ToString("0.0") / 10
                                 </span>
                             }
                             else
