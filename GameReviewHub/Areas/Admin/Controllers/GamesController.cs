@@ -36,6 +36,26 @@ namespace GameReviewHub.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetFilteredPagedGames(AllGamesQueryModel queryModel)
+        {
+            if (queryModel.CurrentPage < 1)
+            {
+                queryModel.CurrentPage = 1;
+            }
+
+            AllGamesPagedServiceModel pagedResult = await gameService.GetPagedGamesAsync(
+                queryModel.SearchTerm,
+                null, // admin does NOT use genre filter
+                queryModel.CurrentPage,
+                AllGamesQueryModel.GamesPerPage);
+
+            queryModel.Games = pagedResult.Games;
+            queryModel.TotalGamesCount = pagedResult.TotalGamesCount;
+
+            return PartialView("_AdminGamesResultsPartial", queryModel);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CreateGame()
         {
             CreateGameViewModel viewModel = await gameService.BuildCreateGameViewModelAsync();

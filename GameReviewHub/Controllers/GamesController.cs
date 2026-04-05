@@ -29,9 +29,7 @@ namespace GameReviewHub.Controllers
             queryModel.Games = pagedResult.Games;
             queryModel.TotalGamesCount = pagedResult.TotalGamesCount;
 
-            ViewData["Genres"] = await gameService.GetAllGenreOptionsAsync();
-            ViewData["SearchQuery"] = queryModel.SearchTerm;
-            ViewData["GenreId"] = queryModel.GenreId;
+            ViewData["Genres"] = await gameService.GetAllGenreOptionsAsync();           
 
             return View(queryModel);
         }
@@ -46,6 +44,26 @@ namespace GameReviewHub.Controllers
             if (viewModel == null) return NotFound();
 
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFilteredPagedGames(AllGamesQueryModel queryModel)
+        {
+            if (queryModel.CurrentPage < 1)
+            {
+                queryModel.CurrentPage = 1;
+            }
+
+            AllGamesPagedServiceModel pagedResult = await gameService.GetPagedGamesAsync(
+                queryModel.SearchTerm,
+                queryModel.GenreId,
+                queryModel.CurrentPage,
+                AllGamesQueryModel.GamesPerPage);
+
+            queryModel.Games = pagedResult.Games;
+            queryModel.TotalGamesCount = pagedResult.TotalGamesCount;
+
+            return PartialView("_GamesResultsPartial", queryModel);
         }
     }
 }
