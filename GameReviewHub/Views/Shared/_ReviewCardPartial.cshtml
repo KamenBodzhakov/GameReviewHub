@@ -80,12 +80,12 @@
 
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <a class="btn btn btn-outline-secondary"
+                    <a class="btn btn btn-outline-success"
                        asp-controller="ReviewComments"
                        asp-action="CreateReviewComment"
                        asp-route-reviewId="@Model.ReviewId"
                        asp-route-gameId="@Model.GameId">
-                        Add Comment
+                        + Comment
                     </a>
                 }
             </div>
