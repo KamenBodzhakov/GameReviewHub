@@ -1,5 +1,8 @@
 ﻿@model GameReviewHub.ViewModels.Game.AllGamesQueryModel
 
+@{
+    ViewData["IsAdminView"] = true;
+}
 <partial name="_GameCardsPartial" model="Model.Games" />
 
 @{
