@@ -182,13 +182,13 @@ Game Administration
 
 Administrators can:
 
-- Create new games with:
+ Create new games with:
   - Title, Developer, Description
   - Release date validation
   - Image path (local project assets)
   - Multiple genre selection
-- Edit existing games
-- Delete games safely (including related data)
+ Edit existing games
+ Delete games safely (including related data)
 
 Genres are predefined and seeded in the database, ensuring consistency and preventing invalid data entry.
 
@@ -214,7 +214,6 @@ An administrator user is assigned automatically during application startup:
 An Administrator area is implemented using ASP.NET Core Areas.
 
 Features include:
-
 - Access restricted to users with the **Administrator** role
 - Manage games (Create, Edit, Delete)
 - Reusable UI components using partial views
@@ -262,6 +261,27 @@ Centralized error messages using ErrorMessages
 
 Consistent validation across ViewModels and services
 
+AJAX-based partial rendering for improved performance and UX
+
+Client-side state persistence using Local Storage
+
+Separation between full views and partial views for dynamic updates
+
+🔍 Dynamic Search & Pagination 
+Live search (AJAX-based) for games:
+-Results update instantly while typing (no page reload)
+-Debounced input for performance optimization
+
+Dynamic pagination (AJAX):
+-Navigate between pages without full page reload
+-Works together with search and filtering seamlessly
+
+Genre filtering with instant results
+-Combine search + genre filters dynamically
+
+State persistence (Local Storage):
+-Search term and selected genre are saved in the browser
+-Filters are automatically restored on page reload
 
 7. 💻 Usage
 

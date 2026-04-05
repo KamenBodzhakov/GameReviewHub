@@ -17,7 +17,7 @@
     </a>
 </div>
 
-<form id="admin-games-filter-form" method="get" asp-action="Index" class="mb-4">
+<form id="admin-games-filter-form" asp-action="Index" class="mb-4">
     <div class="row g-2">
         <div class="col-md-12">
             <input asp-for="SearchTerm"
@@ -42,12 +42,23 @@
 
             let debounceTimer;
 
-            async function loadResults() {
-                const formData = new FormData(form);
-                formData.set("CurrentPage", "1");
+            form.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                }
+            });
 
-                const query = new URLSearchParams(formData).toString();
-                const url = `/Admin/Games/GetFilteredPagedGames?${query}`;
+            async function loadResults(url = null, resetToFirstPage = false) {
+                if (!url) {
+                    const formData = new FormData(form);
+
+                    if (resetToFirstPage) {
+                        formData.set("CurrentPage", "1");
+                    }
+
+                    const query = new URLSearchParams(formData).toString();
+                    url = `/Admin/Games/GetFilteredPagedGames?${query}`;
+                }
 
                 const response = await fetch(url);
 
@@ -59,17 +70,27 @@
                 resultsContainer.innerHTML = html;
             }
 
-            form.addEventListener("submit", async function (e) {
-                e.preventDefault();
-                await loadResults();
-            });
-
             searchInput.addEventListener("input", function () {
                 clearTimeout(debounceTimer);
 
                 debounceTimer = setTimeout(async function () {
-                    await loadResults();
+                    await loadResults(null, true);
                 }, 300);
+            });
+
+            resultsContainer.addEventListener("click", async function (e) {
+                const link = e.target.closest("a.page-link");
+
+                if (!link) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                const linkUrl = new URL(link.href, window.location.origin);
+                const url = `/Admin/Games/GetFilteredPagedGames${linkUrl.search}`;
+
+                await loadResults(url);
             });
         });
     </script>
