@@ -149,7 +149,7 @@ namespace GameReviewHub.Services.Tests
         [Test]
         public async Task DeleteReviewAsync_ShouldReturnFalse_WhenReviewDoesNotExist()
         {
-            bool result = await reviewService.DeleteReviewAsync(1, 999);
+            bool result = await reviewService.DeleteReviewAsync(1, 999, "test-user-id");
 
             Assert.That(result, Is.False);
         }
@@ -194,7 +194,7 @@ namespace GameReviewHub.Services.Tests
 
             await dbContext.SaveChangesAsync();
 
-            bool result = await reviewService.DeleteReviewAsync(1, 1);
+            bool result = await reviewService.DeleteReviewAsync(1, 1, "user-1");
 
             int reviewsCount = await dbContext.Reviews.CountAsync();
 
@@ -212,7 +212,7 @@ namespace GameReviewHub.Services.Tests
                 Rating = 7
             };
 
-            bool result = await reviewService.ConfirmEditReviewAsync(1, 999, input);
+            bool result = await reviewService.ConfirmEditReviewAsync(1, 999, input, "user-1");
 
             Assert.That(result, Is.False);
         }
@@ -264,7 +264,7 @@ namespace GameReviewHub.Services.Tests
                 Rating = 9
             };
 
-            bool result = await reviewService.ConfirmEditReviewAsync(1, 1, input);
+            bool result = await reviewService.ConfirmEditReviewAsync(1, 1, input, "user-1");
 
             Review? updatedReview = await dbContext.Reviews.FirstOrDefaultAsync(r => r.Id == 1);
 
@@ -373,7 +373,7 @@ namespace GameReviewHub.Services.Tests
         [Test]
         public async Task BuildDeleteReviewViewModelAsync_ShouldReturnNull_WhenReviewDoesNotExist()
         {
-            DeleteReviewViewModel? result = await reviewService.BuildDeleteReviewViewModelAsync(1, 999);
+            DeleteReviewViewModel? result = await reviewService.BuildDeleteReviewViewModelAsync(1, 999, "user-1");
 
             Assert.That(result, Is.Null);
         }
@@ -418,7 +418,7 @@ namespace GameReviewHub.Services.Tests
 
             await dbContext.SaveChangesAsync();
 
-            DeleteReviewViewModel? result = await reviewService.BuildDeleteReviewViewModelAsync(1, 1);
+            DeleteReviewViewModel? result = await reviewService.BuildDeleteReviewViewModelAsync(1, 1, "user-1");
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result!.ReviewId, Is.EqualTo(1));
@@ -432,7 +432,7 @@ namespace GameReviewHub.Services.Tests
         [Test]
         public async Task BuildEditReviewViewModelAsync_ShouldReturnNull_WhenReviewDoesNotExist()
         {
-            EditReviewViewModel? result = await reviewService.BuildEditReviewViewModelAsync(1, 999);
+            EditReviewViewModel? result = await reviewService.BuildEditReviewViewModelAsync(1, 999, "user-1");
 
             Assert.That(result, Is.Null);
         }
@@ -477,7 +477,7 @@ namespace GameReviewHub.Services.Tests
 
             await dbContext.SaveChangesAsync();
 
-            EditReviewViewModel? result = await reviewService.BuildEditReviewViewModelAsync(1, 1);
+            EditReviewViewModel? result = await reviewService.BuildEditReviewViewModelAsync(1, 1, "user-1");
 
             Assert.That(result, Is.Not.Null);
             Assert.That(result!.ReviewId, Is.EqualTo(1));

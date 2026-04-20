@@ -34,7 +34,58 @@ namespace GameReviewHub.Data.Configuration
             // Slay the Spire
             new GameGenre { GameId = SlayTheSpireGameId, GenreId = RoguelikeGenreId },
             new GameGenre { GameId = SlayTheSpireGameId, GenreId = StrategyGenreId },
-            new GameGenre { GameId = SlayTheSpireGameId, GenreId = DeckbuilderGenreId }
+            new GameGenre { GameId = SlayTheSpireGameId, GenreId = DeckbuilderGenreId },
+
+            // Red Dead Redemption 2
+            new GameGenre { GameId = 6, GenreId = ActionGenreId },
+            new GameGenre { GameId = 6, GenreId = AdventureGenreId },
+            new GameGenre { GameId = 6, GenreId = OpenWorldGenreId },
+
+
+            // The Witcher 3: Wild Hunt
+            new GameGenre { GameId = 7, GenreId = RpgGenreId },
+            new GameGenre { GameId = 7, GenreId = AdventureGenreId },
+            new GameGenre { GameId = 7, GenreId = OpenWorldGenreId },
+            
+            // Elden Ring
+            new GameGenre { GameId = 8, GenreId = RpgGenreId },
+            new GameGenre { GameId = 8, GenreId = ActionGenreId },
+            new GameGenre { GameId = 8, GenreId = OpenWorldGenreId },
+            
+            // Against the Storm
+            new GameGenre { GameId = 9, GenreId = StrategyGenreId },
+            new GameGenre { GameId = 9, GenreId = RoguelikeGenreId },
+            new GameGenre { GameId = 9, GenreId = SimulationGenreId },
+            
+            // Darkest Dungeon II
+            new GameGenre { GameId = 10, GenreId = RoguelikeGenreId },
+            new GameGenre { GameId = 10, GenreId = StrategyGenreId },
+            new GameGenre { GameId = 10, GenreId = TurnBasedGenreId },
+            
+            // Shape of Dreams
+            new GameGenre { GameId = 11, GenreId = ActionGenreId },
+            new GameGenre { GameId = 11, GenreId = RoguelikeGenreId },
+            
+            // Divinity: Original Sin 2
+            new GameGenre { GameId = 12, GenreId = RpgGenreId },
+            new GameGenre { GameId = 12, GenreId = TurnBasedGenreId },
+            new GameGenre { GameId = 12, GenreId = TacticalGenreId },
+            new GameGenre { GameId = 12, GenreId = AdventureGenreId },
+            
+            // Hogwarts Legacy
+            new GameGenre { GameId = 13, GenreId = RpgGenreId },
+            new GameGenre { GameId = 13, GenreId = AdventureGenreId },
+            new GameGenre { GameId = 13, GenreId = OpenWorldGenreId },
+            
+            // Borderlands 3
+            new GameGenre { GameId = 14, GenreId = ShooterGenreId },
+            new GameGenre { GameId = 14, GenreId = ActionGenreId },
+            new GameGenre { GameId = 14, GenreId = AdventureGenreId },
+            
+            // Once Human
+            new GameGenre { GameId = 15, GenreId = OpenWorldGenreId },
+            new GameGenre { GameId = 15, GenreId = ActionGenreId },
+            new GameGenre { GameId = 15, GenreId = SandboxGenreId },
         };
 
         public void Configure(EntityTypeBuilder<GameGenre> entity)

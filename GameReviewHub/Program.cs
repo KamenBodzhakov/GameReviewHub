@@ -41,13 +41,21 @@ namespace GameReviewHub
 
             var app = builder.Build();
 
-            string? adminEmail = builder.Configuration["AdminSettings:Email"];
-            IdentitySeeder.SeedRoles(app);
+            IdentitySeeder.SeedIdentityAsync(app, app.Configuration)
+                .GetAwaiter()
+                .GetResult();
 
-            if (!string.IsNullOrEmpty(adminEmail))
-            {
-                IdentitySeeder.AssignAdmin(app, adminEmail);
-            }
+            ReviewSeeder.SeedReviewsAsync(app)
+                .GetAwaiter()
+                .GetResult();
+
+            ReviewCommentSeeder.SeedCommentsAsync(app)
+                .GetAwaiter()
+                .GetResult();
+
+            ReviewVoteSeeder.SeedVotesAsync(app)
+                .GetAwaiter()
+                .GetResult();
 
             if (app.Environment.IsDevelopment())
             {
